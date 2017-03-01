@@ -9,7 +9,6 @@ class CreateYearData < ActiveRecord::Migration[5.0]
       t.float :B
       t.float :C
       t.float :D
-      t.float :E
       t.float :F
       t.float :other
       t.float :mean_score
@@ -23,7 +22,6 @@ class CreateYearData < ActiveRecord::Migration[5.0]
     add_index :year_data, :B
     add_index :year_data, :C
     add_index :year_data, :D
-    add_index :year_data, :E
     add_index :year_data, :F
     add_index :year_data, :mean_score
   end

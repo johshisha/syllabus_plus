@@ -81,3 +81,5 @@ gem 'will_paginate',           '3.1.0'
 gem 'bootstrap-will_paginate', '0.0.10'
 # For load env
 gem 'dotenv-rails'
+# For batch runner
+gem 'whenever'
