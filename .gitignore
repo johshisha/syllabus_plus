@@ -20,4 +20,5 @@
 # Ignore secret file
 .env
 
-
+# Ignore Untitle files
+*Untitle*

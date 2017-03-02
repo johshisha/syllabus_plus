@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170228133849) do
+ActiveRecord::Schema.define(version: 20170302161428) do
 
   create_table "faculties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       null: false
@@ -25,6 +25,28 @@ ActiveRecord::Schema.define(version: 20170228133849) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.index ["year_datum_id", "teacher_id"], name: "index_subject_relationships_on_year_datum_id_and_teacher_id", unique: true, using: :btree
+  end
+
+  create_table "subject_scores", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "subject_id"
+    t.float    "A",              limit: 24
+    t.float    "B",              limit: 24
+    t.float    "C",              limit: 24
+    t.float    "D",              limit: 24
+    t.float    "F",              limit: 24
+    t.float    "other",          limit: 24
+    t.float    "mean_score",     limit: 24
+    t.float    "weighted_score", limit: 24
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.index ["A"], name: "index_subject_scores_on_A", using: :btree
+    t.index ["B"], name: "index_subject_scores_on_B", using: :btree
+    t.index ["C"], name: "index_subject_scores_on_C", using: :btree
+    t.index ["D"], name: "index_subject_scores_on_D", using: :btree
+    t.index ["F"], name: "index_subject_scores_on_F", using: :btree
+    t.index ["mean_score"], name: "index_subject_scores_on_mean_score", using: :btree
+    t.index ["subject_id"], name: "index_subject_scores_on_subject_id", using: :btree
+    t.index ["weighted_score"], name: "index_subject_scores_on_weighted_score", using: :btree
   end
 
   create_table "subjects", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -70,6 +92,7 @@ ActiveRecord::Schema.define(version: 20170228133849) do
     t.index ["year"], name: "index_year_data_on_year", using: :btree
   end
 
+  add_foreign_key "subject_scores", "subjects"
   add_foreign_key "subjects", "faculties"
   add_foreign_key "year_data", "subjects"
 end
