@@ -24,6 +24,21 @@ $gray-medium-light: #eaeaea;
   }
 }
 
+.subjects {
+  th {
+    text-align: center;
+  }
+  td {
+  }
+  .subject_name {
+    width: 200px;
+  }
+  .score {
+    text-align: center;
+    width: 60px;
+  }
+}
+
 .year_data {
   th {
     text-align: center;
