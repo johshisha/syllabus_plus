@@ -24,27 +24,12 @@ $gray-medium-light: #eaeaea;
   }
 }
 
-ul.year_data {
-  list-style: none;
-  li {
-    height: auto;
+.year_data {
+  th {
+    text-align: center;
+    width: 60px;
   }
-}
-
-ul.year_datum {
-  list-style: none;
-  display:table;
-  table-layout:fixed;
-  width:500px;
-  padding-bottom: 40px;
-  li {
-    display:table-cell;
-    vertical-align:middle;
-    text-align:center;
-    border-left:1px solid gray;
+  td {
+    text-align: center;
   }
-  li:first-child {
-    border:none;    
-  }
-  
 }
