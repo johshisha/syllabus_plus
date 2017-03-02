@@ -1,8 +1,12 @@
-<li>
-  <%= subject.name %>
-  <%= subject.code %>
-  <a href="javascript:void(0)" id="text_<%= subject.id %>" onclick="show('<%= subject.id %>');">年度のごとの分布を見る</a>
-  <div class="year_data" id="table_<%= subject.id %>" style="display: none;" status="close">
-    <%= render partial: 'year_data/data_table', locals: { subject: subject } %>
-  </div>
-</li>
+<tr>
+  <td><%= subject.name %></td>
+  <td><%= subject.code %></td>
+</tr>
+<tr>
+  <td colspan="2">
+    <a href="javascript:void(0)" id="text_<%= subject.id %>" onclick="show('<%= subject.id %>');">年度のごとの分布を見る</a>
+    <div class="year_data" id="table_<%= subject.id %>" style="display: none;" status="close">
+      <%= render partial: 'year_data/data_table', locals: { subject: subject } %>
+    </div>
+  </td>
+</tr>

@@ -3,8 +3,12 @@
 
 <%= will_paginate @subjects %>
 
-<ul class="subjects">
+<table class="subjects">
+  <tr>
+    <th>科目名</th>
+    <th>科目コード</th>
+  </tr>
   <%= render @subjects %>
-</ul>
+</table>
 
 <%= will_paginate @subjects %>

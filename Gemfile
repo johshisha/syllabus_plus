@@ -83,3 +83,11 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'dotenv-rails'
 # For batch runner
 gem 'whenever'
+
+# http://qiita.com/kamizuno/items/5c3ecceea5aa78e25058
+# less
+gem 'less-rails'
+# For execute javascript
+gem 'execjs'
+# twitter bootstrap
+gem 'twitter-bootstrap-rails'
