@@ -1,0 +1,54 @@
+<li>
+  <%= subject.name %>
+  <%= subject.code %>
+  <div class="year_data">
+      <ul class="year_datum">
+        <li>
+          科目名
+        </li>
+        <li>
+          学期
+        </li>
+        <li>
+          A
+        </li>
+        <li>
+          B
+        </li>
+        <li>
+          C
+        </li>
+        <li>
+          D
+        </li>
+        <li>
+          F
+        </li>
+      </ul>
+    <% subject.year_data.each do |year_datum| %>
+      <ul class='year_datum'>
+        <li>
+          <%= link_to year_datum.year, year_datum.url %>
+        </li>
+        <li>
+          <%= int2term year_datum.term %>
+        </li>
+        <li>
+          <%= year_datum.A %>
+        </li>
+        <li>
+          <%= year_datum.B %>
+        </li>
+        <li>
+          <%= year_datum.C %>
+        </li>
+        <li>
+          <%= year_datum.D %>
+        </li>
+        <li>
+          <%= year_datum.F %>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</li>

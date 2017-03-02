@@ -1,0 +1,50 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+/* mixins, variables, etc. */
+
+$gray-medium-light: #eaeaea;
+
+@mixin box_sizing {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+/* Articles index */
+
+.faculties {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-bottom: 1px solid $gray-lighter;
+  }
+}
+
+ul.year_data {
+  list-style: none;
+  li {
+    height: auto;
+  }
+}
+
+ul.year_datum {
+  list-style: none;
+  display:table;
+  table-layout:fixed;
+  width:500px;
+  padding-bottom: 40px;
+  li {
+    display:table-cell;
+    vertical-align:middle;
+    text-align:center;
+    border-left:1px solid gray;
+  }
+  li:first-child {
+    border:none;    
+  }
+  
+}

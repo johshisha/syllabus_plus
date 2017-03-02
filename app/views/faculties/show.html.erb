@@ -1,0 +1,10 @@
+<% provide(:title, 'Subjects') %>
+<h1>Subjects in <%= @faculty.name %></h1>
+
+<%= will_paginate @subjects %>
+
+<ul class="subjects">
+  <%= render @subjects %>
+</ul>
+
+<%= will_paginate @subjects %>
