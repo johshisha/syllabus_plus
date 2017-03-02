@@ -1,13 +1,13 @@
 <tr>
   <td class="subject_name"><%= subject.name %></td>
-  <td><%= subject.code %></td>
-  <td class="score"><%= subject.subject_score.A.round(1) %></td>
-  <td class="score"><%= subject.subject_score.B.round(1) %></td>
-  <td class="score"><%= subject.subject_score.C.round(1) %></td>
-  <td class="score"><%= subject.subject_score.D.round(1) %></td>
-  <td class="score"><%= subject.subject_score.F.round(1) %></td>
-  <td class="score"><%= subject.subject_score.mean_score.round(1) %></td>
-  <td style="display:none;"><%= subject.subject_score.weighted_score %></td>
+  <td><%= link_to subject.code, subject.url %></td>
+  <td class="score"><%= subject.A.round(1) %></td>
+  <td class="score"><%= subject.B.round(1) %></td>
+  <td class="score"><%= subject.C.round(1) %></td>
+  <td class="score"><%= subject.D.round(1) %></td>
+  <td class="score"><%= subject.F.round(1) %></td>
+  <td class="score"><%= subject.mean_score.round(1) %></td>
+  <td style="display:none;"><%= subject.weighted_score %></td>
 </tr>
 <tr>
   <td colspan="8">

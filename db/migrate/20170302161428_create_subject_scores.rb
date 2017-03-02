@@ -10,6 +10,7 @@ class CreateSubjectScores < ActiveRecord::Migration[5.0]
       t.float :other
       t.float :mean_score
       t.float :weighted_score
+      t.integer :number_of_students
 
       t.timestamps
     end
@@ -20,5 +21,6 @@ class CreateSubjectScores < ActiveRecord::Migration[5.0]
     add_index :subject_scores, :F
     add_index :subject_scores, :mean_score
     add_index :subject_scores, :weighted_score
+    add_index :subject_scores, :number_of_students
   end
 end

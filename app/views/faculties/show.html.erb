@@ -14,7 +14,9 @@
     <th>F</th>
     <th>平均評点</th>
   </tr>
-  <%= render @subjects %>
+  <% @subjects.each do |subject| %>
+    <%= render partial: 'subjects/subject', locals: {subject: subject} %>
+  <% end %>
 </table>
 
 <%= will_paginate @subjects %>

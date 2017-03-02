@@ -1,5 +1,6 @@
 class YearDatum < ApplicationRecord
-  belongs_to :subject
+  belongs_to :subject, class_name: "Subject"
+  belongs_to :subject, class_name: "SummarizedSubject"
   has_many :subject_relationships, dependent: :destroy
   has_many :teachers, through: :subject_relationships
   

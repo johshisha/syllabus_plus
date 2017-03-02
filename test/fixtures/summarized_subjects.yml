@@ -1,0 +1,33 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  code: MyString
+  number_of_students: 1
+  A: 1.5
+  B: 1.5
+  C: 1.5
+  D: 1.5
+  F: 1.5
+  other: 1.5
+  mean_score: 1.5
+  weighted_score: 1.5
+  faculty: one
+  url: MyText
+  term: 1
+
+two:
+  name: MyString
+  code: MyString
+  number_of_students: 1
+  A: 1.5
+  B: 1.5
+  C: 1.5
+  D: 1.5
+  F: 1.5
+  other: 1.5
+  mean_score: 1.5
+  weighted_score: 1.5
+  faculty: two
+  url: MyText
+  term: 1

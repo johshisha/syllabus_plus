@@ -21,6 +21,8 @@ def int2term(num)
 end
 
 class BatchUpdateSyllabus
+  attr_accessor :post_data 
+  
   def self.retrieve_faculties
     url = "http://duet.doshisha.ac.jp/info/gpaindex.jsp"
     page = @agent.get(url)
@@ -75,18 +77,22 @@ class BatchUpdateSyllabus
       
       offset += 50
     end
-    
-    update_tables(trs, faculty.id)
+    trs
+  end
+  
+  def self.tr2array(tr)
+    tds = tr.css('td')
+    p "invalid data #{tds}" if tds.length != 16
+    teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
+    subject_url = tds[4].css('a').attribute('href').text
+    year, cource, code, term, subject_name, class_number, _, students_number, a, b, c, d, f, other, mean_score, _ = tds.map(&:text).map(&:strip)
+    year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
   end
     
   def self.update_tables(trs, faculty_id)
     before_count = Subject.count
     trs.each do |tr|
-      tds = tr.css('td')
-      p "invalid data #{tds}" if tds.length != 16
-      teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
-      subject_url = tds[4].css('a').attribute('href').text
-      year, cource, code, term, subject_name, class_number, _, students_number, a, b, c, d, f, other, mean_score, _ = tds.map(&:text).map(&:strip)
+      year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url = tr2array(tr)
       # p year, cource, code, term, subject_name, class_number, teachers, students_number, a, b, c, d, f, other, mean_score
       subject = Subject.find_by(code: code)
       subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id) if not subject
@@ -112,7 +118,8 @@ class BatchUpdateSyllabus
     faculies.each do |faculty|
       p faculty.name
       update_parameter(faculty, year)
-      retrieved = retrieve_subjects_of faculty
+      trs = retrieve_subjects_of faculty
+      update_tables(trs, faculty.id)
       p "retrieved #{retrieved} data"
     end
     p "#{DateTime.now}, Finish BatchUpdateSyllabus"

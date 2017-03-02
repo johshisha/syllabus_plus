@@ -5,6 +5,6 @@ class FacultiesController < ApplicationController
   
   def show
     @faculty = Faculty.find(params[:id])
-    @subjects = @faculty.subjects.includes([:subject_score, :year_data]).paginate(page: params[:page])
+    @subjects = @faculty.summarized_subjects.includes(:year_data).paginate(page: params[:page])
   end
 end
