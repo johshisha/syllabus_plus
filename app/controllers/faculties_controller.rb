@@ -5,6 +5,9 @@ class FacultiesController < ApplicationController
   
   def show
     @faculty = Faculty.find(params[:id])
-    @subjects = @faculty.summarized_subjects.includes(:year_data).order("weighted_score desc").paginate(page: params[:page])
+    respond_to do |format|
+      format.html
+      format.json { render json: SubjectsDatatable.new(view_context) }
+    end
   end
 end

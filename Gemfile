@@ -94,3 +94,8 @@ gem 'twitter-bootstrap-rails'
 
 # https://github.com/metaskills/less-rails/issues/122#issuecomment-255315394
 gem "sprockets", '3.6.3'
+
+# http://railscasts.com/episodes/340-datatables?autoplay=true
+# For sort table using Ajax
+gem 'jquery-datatables-rails'
+gem 'jquery-ui-rails'
