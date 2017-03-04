@@ -4,10 +4,10 @@ class FacultiesController < ApplicationController
   end
   
   def show
-    @faculty = Faculty.find(params[:id])
+    # @faculty = Faculty.find(params[:id])
     respond_to do |format|
       format.html
-      format.json { render json: SubjectsDatatable.new(view_context) }
+      format.json { render json: SubjectsDatatable.new(params) }
     end
   end
 end

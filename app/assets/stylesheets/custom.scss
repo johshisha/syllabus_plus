@@ -48,3 +48,14 @@ $gray-medium-light: #eaeaea;
     text-align: center;
   }
 }
+
+
+td.details-control {
+    background: image-url('open.png') no-repeat center center;
+    background-size:contain;
+    cursor: pointer;
+}
+tr.shown td.details-control {
+    background: image-url('close.png') no-repeat center center;
+    background-size:contain;
+}
