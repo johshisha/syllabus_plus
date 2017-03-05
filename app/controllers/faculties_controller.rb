@@ -5,6 +5,9 @@ class FacultiesController < ApplicationController
   
   def show
     # @faculty = Faculty.find(params[:id])
+  end
+  
+  def list
     respond_to do |format|
       format.html
       format.json { render json: SubjectsDatatable.new(params) }

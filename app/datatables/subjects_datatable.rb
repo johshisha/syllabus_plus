@@ -59,7 +59,6 @@ private
 
   def subjects
     @subjects ||= fetch_subjects
-    @subjects
   end
 
   def fetch_subjects
@@ -78,7 +77,7 @@ private
   end
 
   def page
-    params[:iDisplayStart].to_i/per_page + 1
+    params["start"].to_i/per_page + 1
   end
 
   def per_page

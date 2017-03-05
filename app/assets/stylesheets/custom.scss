@@ -47,15 +47,18 @@ $gray-medium-light: #eaeaea;
   td {
     text-align: center;
   }
+  td.details-control {
+    width: 20px;
+  }
 }
 
 
 td.details-control {
-    background: image-url('open.png') no-repeat center center;
-    background-size:contain;
+    background: image-url('open.png') no-repeat center;
+    background-size: 15px 15px;
     cursor: pointer;
 }
 tr.shown td.details-control {
-    background: image-url('close.png') no-repeat center center;
-    background-size:contain;
+    background: image-url('close.png') no-repeat center;
+    background-size: 15px 15px;
 }
