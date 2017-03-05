@@ -63,7 +63,7 @@ private
   end
 
   def fetch_subjects
-    faculty = Faculty.find(1)
+    faculty = Faculty.find(params["faculty_id"])
     subjects = faculty.summarized_subjects.includes(:year_data).order("#{sort_column}")
     subjects = subjects.page(page).per_page(per_page)
     if params["search"]["value"].present?
