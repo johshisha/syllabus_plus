@@ -99,3 +99,6 @@ gem "sprockets", '3.6.3'
 # For sort table using Ajax
 gem 'jquery-datatables-rails'
 gem 'jquery-ui-rails'
+
+# Itamae
+gem 'itamae'
