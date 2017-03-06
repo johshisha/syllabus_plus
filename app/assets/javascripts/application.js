@@ -12,9 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require dataTables/jquery.dataTables
+//= require dataTables/extras/dataTables.responsive
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+
 function show(inputData){
     var objID=document.getElementById( "table_" + inputData );
     var buttonID=document.getElementById( "text_" + inputData );
