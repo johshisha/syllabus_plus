@@ -1,3 +1,4 @@
+#bin/bash
 sudo userdel ubuntu
 sudo mkdir /var/www
 cd /var/
