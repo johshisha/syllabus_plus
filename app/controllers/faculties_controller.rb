@@ -4,7 +4,7 @@ class FacultiesController < ApplicationController
   end
   
   def show
-    # @faculty = Faculty.find(params[:id])
+    @faculty = Faculty.find(params[:id])
   end
   
   def list

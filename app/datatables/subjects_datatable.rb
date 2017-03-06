@@ -24,7 +24,7 @@ private
     year_data = []
     subjects.each do |subject|
       data = []
-      subject.year_data.each do |year_datum|
+      subject.year_data.order("year desc").each do |year_datum|
         data.push({
           year: year_datum.year,
           term: ApplicationController.helpers.int2term(year_datum.term),
