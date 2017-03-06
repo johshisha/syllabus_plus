@@ -46,7 +46,9 @@ cp ~/.env ./.env
 mkdir -p shared/tmp/pids
 gem install bundler
 bundle install --path=vendor/bundle --without development test
-bundle exec unicorn_rails -c config/unicorn/production.rb -p 8080 -D -E production
+bundle exec rake db:setup RAILS_ENV=production
 bundle exec rake db:migrate RAILS_ENV=production
 bundle exec rake assets:precompile RAILS_ENV=production
+bundle exec unicorn_rails -c config/unicorn/production.rb -p 8080 -D -E production
+
 sudo service nginx restart
