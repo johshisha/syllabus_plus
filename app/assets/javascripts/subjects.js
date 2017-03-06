@@ -56,21 +56,21 @@ $(document).ready(function() {
          }
       },
       "columns": [
-              {
-                  "className":      'details-control',
-                  "orderable":      false,
-                  "data":           null,
-                  "defaultContent": ''
-              },
-              { "data": "name" },
-              { "data": "code" },
-              { "data": "A"},
-              { "data": "B"},
-              { "data": "C"},
-              { "data": "D"},
-              { "data": "F"},
-              { "data": "mean_score"},
-          ],
+        {
+            "className":      'details-control',
+            "orderable":      false,
+            "data":           null,
+            "defaultContent": '',
+        },
+        { "data": "name" },
+        { "data": "code" },
+        { "data": "A", "orderSequence": [ "desc", "asc"]},
+        { "data": "B", "orderSequence": [ "desc", "asc"]},
+        { "data": "C", "orderSequence": [ "desc", "asc"]},
+        { "data": "D", "orderSequence": [ "desc", "asc"]},
+        { "data": "F", "orderSequence": [ "desc", "asc"]},
+        { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+      ],
     });
     // Add event listener for opening and closing details
     $('#subjects tbody').on('click', 'td.details-control', function () {
