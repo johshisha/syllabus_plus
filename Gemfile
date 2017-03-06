@@ -51,11 +51,6 @@ group :development do
   # For jupyter-notebook
   gem 'cztop'
   gem 'iruby', github: 'SciRuby/iruby'
-  
-  # For scraping
-  gem 'robotex'
-  gem 'nokogiri'
-  gem 'mechanize'
 end
 
 group :test do
@@ -74,6 +69,9 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 # Fix warning: http://stackoverflow.com/questions/40986923/meaning-of-expected-string-default-value-for-on-ruby-on-rails
 gem 'thor', '0.19.1'
 
+# For scraping
+gem 'nokogiri'
+gem 'mechanize'
 
 # For paginate
 gem 'will_paginate',           '3.1.0'
