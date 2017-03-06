@@ -31,7 +31,7 @@ namespace :unicorn do
 
   def unicorn_pid
     begin
-      pid_path = Rails.root.join('shared', 'tmp', 'pids', 'unicorn.pid')
+      pid_path = Rails.root.join('tmp', 'pids', 'unicorn.pid')
       File.read(pid_path).to_i
     rescue Errno::ENOENT
       raise "Unicorn doesn't seem to be running"
