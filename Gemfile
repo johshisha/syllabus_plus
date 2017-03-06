@@ -51,7 +51,6 @@ group :development do
   # For jupyter-notebook
   gem 'cztop'
   gem 'iruby', github: 'SciRuby/iruby'
-  gem 'pry'
   
   # For scraping
   gem 'robotex'
@@ -102,3 +101,4 @@ gem 'jquery-ui-rails'
 
 # Itamae
 gem 'itamae'
+gem 'pry'
