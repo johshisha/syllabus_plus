@@ -22,3 +22,6 @@
 
 # Ignore Untitle files
 *Untitle*
+
+# Ignore compiled files
+public/assets
