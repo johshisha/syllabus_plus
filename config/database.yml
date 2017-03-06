@@ -49,6 +49,7 @@ test:
 #
 production:
   <<: *default
+  host: <%= ENV['AWS_DB_HOST'] %>
   database: syllabus_plus_production
   username: syllabus_plus
   password: <%= ENV['SYLLABUS_PLUS_DATABASE_PASSWORD'] %>
