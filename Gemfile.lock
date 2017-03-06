@@ -221,7 +221,6 @@ GEM
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
     ref (2.0.0)
-    robotex (1.0.0)
     ruby-progressbar (1.8.1)
     sass (3.4.23)
     sass-rails (5.0.6)
@@ -317,7 +316,6 @@ DEPENDENCIES
   puma (~> 3.0)
   rails (~> 5.0.1)
   rails-controller-testing (= 0.1.1)
-  robotex
   sass-rails (~> 5.0.6)
   spring
   spring-watcher-listen (~> 2.0.0)

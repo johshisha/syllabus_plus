@@ -1,6 +1,6 @@
 class YearDatum < ApplicationRecord
   belongs_to :subject, class_name: "Subject"
-  belongs_to :subject, class_name: "SummarizedSubject"
+  # belongs_to :subject, class_name: "SummarizedSubject" # これがあるとデータ収集時にエラーが起こる
   has_many :subject_relationships, dependent: :destroy
   has_many :teachers, through: :subject_relationships
   
