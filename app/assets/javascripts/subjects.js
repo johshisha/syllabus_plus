@@ -1,5 +1,8 @@
 var pat = /faculties\/[0-9]*/;
-var url = window.location.href;
+
+function url() {
+  return window.location.href;
+}
 function format ( d ) {
   // `d` is the original data object for the row
   html = '<table class="year_data" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
@@ -34,8 +37,8 @@ function format ( d ) {
   
 }
 
-$(function() {
-  if (pat.test(url)) {
+function load_table() {
+  if (pat.test(url())) {
     var table = $('#subjects').DataTable( {
       "sPaginationType": "full_numbers",
       "JQueryUI": true,
@@ -48,7 +51,7 @@ $(function() {
         "dataType": 'json',
         "data": function ( d ) {
             // Retrieve dynamic parameters
-            var part = url.split('/')
+            var part = url().split('/')
             var id = part[part.length-1].match(/^[0-9]*/)[0]
             var dt_params = {"faculty_id": id};
             // Add dynamic parameters to the data object sent to the server
@@ -89,4 +92,4 @@ $(function() {
         }
     } );
   }
-} );
+}
