@@ -86,7 +86,7 @@ class BatchUpdateSyllabus
     teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
     subject_url = tds[4].css('a').attribute('href').text
     year, cource, code, term, subject_name, class_number, _, students_number, a, b, c, d, f, other, mean_score, _ = tds.map(&:text).map(&:strip)
-    year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
+    return year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
   end
     
   def self.update_tables(trs, faculty_id)
@@ -119,7 +119,7 @@ class BatchUpdateSyllabus
       p faculty.name
       update_parameter(faculty, year)
       trs = retrieve_subjects_of faculty
-      update_tables(trs, faculty.id)
+      retrieved = update_tables(trs, faculty.id)
       p "retrieved #{retrieved} data"
     end
     p "#{DateTime.now}, Finish BatchUpdateSyllabus"
