@@ -34,7 +34,7 @@ function format ( d ) {
   
 }
 
-$(document).ready(function() {
+$(function() {
   if (pat.test(url)) {
     var table = $('#subjects').DataTable( {
       "sPaginationType": "full_numbers",
