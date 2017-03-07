@@ -51,6 +51,7 @@ function load_table() {
       "processing": true,
       "serverSide": true,
       "responsive": true,
+      "iDisplayLength": 50,
       "order" : [["0", 'desc']],
       "ajax": {
         "url": "list",
