@@ -13,6 +13,7 @@
   <div class="checkbox-control" status="open" style="display: block">
     <h3>検索する学部を選んでください</h3>
     <ul class="faculties">
+      <label><input type="checkbox" value="all" onclick="clicked(this);" />すべての学部</label>
       <%= render @faculties %>
     </ul>
   </div>

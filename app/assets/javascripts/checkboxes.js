@@ -1,17 +1,39 @@
-var faculty_ids = []
+var faculty_ids = [];
 
-function clicked(element) {
+function confirm_check_status(element) {
   if ($(element).is(':checked')) {
-		faculty_ids.push($(element).val());
-    $('#subjects').DataTable().ajax.reload(null, false);
+    faculty_ids.push($(element).val());
 	} else {
     for(i=faculty_ids.length; i>=0; i--){
       if(faculty_ids[i] == $(element).val()){
-          faculty_ids.splice(i, 1);
+        faculty_ids.splice(i, 1);
       }
     }
-    $('#subjects').DataTable().ajax.reload(null, false);
 	}
+}
+
+function clicked_all(element) {
+  faculty_ids = [];
+  if ($(element).is(':checked')) {
+    $(".faculties #faculty_ckb").each(function() {
+      faculty_ids.push($(this).val());
+      $(this).attr('disabled', true);
+    });
+  }else{
+    $(".faculties #faculty_ckb").each(function() {
+      $(this).attr('disabled', false);
+      confirm_check_status(this);
+    });
+  }
+}
+
+function clicked(element) {
+  if ($(element).val() == 'all') {
+    clicked_all(element);
+  }else {
+    confirm_check_status(element);
+  }
+  $('#subjects').DataTable().ajax.reload(null, false);
 }
 
 function control_checkbox_visible(inputData){
