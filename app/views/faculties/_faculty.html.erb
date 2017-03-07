@@ -1,3 +1,4 @@
 <li>
-  <%= link_to faculty.name, faculty %>
+  <!-- <%= link_to faculty.name, faculty %> -->
+  <label><input type="checkbox" id="faculty_ckb" value="<%= faculty.id %>" onclick="clicked(this);" /><%= faculty.name %></label>
 </li>

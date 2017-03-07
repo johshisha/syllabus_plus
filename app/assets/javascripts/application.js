@@ -18,17 +18,3 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
-
-function show(inputData){
-    var objID=document.getElementById( "table_" + inputData );
-    var buttonID=document.getElementById( "text_" + inputData );
-    if(objID.getAttribute('status')=='close') {
-        objID.style.display='block';
-        objID.setAttribute('status', 'open'); 
-        buttonID.text = "閉じる";
-    }else{
-        objID.style.display='none';
-        objID.setAttribute('status', 'close'); 
-        buttonID.text = "年度のごとの分布を見る";
-    }
-}
