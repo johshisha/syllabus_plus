@@ -64,6 +64,10 @@ $gray-medium-light: #eaeaea;
   display: none;
 }
 
+.detail-table::before {
+  content: none !important;
+}
+
 
 .adsense1 {
   width: 200px;
