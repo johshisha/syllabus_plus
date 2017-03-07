@@ -39,6 +39,12 @@ function format ( d ) {
 
 function load_table() {
   if (pat.test(url())) {
+    $.extend( $.fn.DataTable.defaults, { 
+        language: {
+            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+        } 
+    });
+    
     var table = $('#subjects').DataTable( {
       // "sPaginationType": "full_numbers",
       "JQueryUI": true,
