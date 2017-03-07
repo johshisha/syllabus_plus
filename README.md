@@ -1,24 +1,15 @@
-# README
+# SyllabusPlus
+同志社大学の学生のための履修支援サービス  
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Web site
+http://syllabusplus.info
 
-Things you may want to cover:
 
-* Ruby version
+* Ruby version  
+2.2
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Usage  
+```
+$ bundle install
+$ bundle exec rails s
+```
