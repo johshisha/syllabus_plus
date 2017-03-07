@@ -25,17 +25,19 @@ $gray-medium-light: #eaeaea;
 }
 
 .subjects {
+  width: auto;
   th {
     text-align: center;
   }
   td {
   }
   .subject_name {
-    width: 200px;
+    max-width: 200px;
+    min-width: 100px;
   }
   .score {
     text-align: center;
-    width: 60px;
+    max-width: 60px;
   }
 }
 
@@ -50,6 +52,11 @@ $gray-medium-light: #eaeaea;
   td.details-control {
     width: 20px;
   }
+}
+
+.adsense1 {
+  width: 200px;
+  height: 200px;
 }
 
 

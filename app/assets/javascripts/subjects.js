@@ -22,7 +22,7 @@ function format ( d ) {
   for(var i=0,data;data=d.year_data[i];i++){
     html +=
     '<tr>'+
-        '<td>'+data.year+'</td>'+
+        '<td><a href="'+data.url+'">'+data.year+'</a></td>'+
         '<td>'+data.number_of_students+'</td>'+
         '<td>'+data.A+'</td>'+
         '<td>'+data.B+'</td>'+
@@ -40,7 +40,7 @@ function format ( d ) {
 function load_table() {
   if (pat.test(url())) {
     var table = $('#subjects').DataTable( {
-      "sPaginationType": "full_numbers",
+      // "sPaginationType": "full_numbers",
       "JQueryUI": true,
       "processing": true,
       "serverSide": true,
@@ -64,8 +64,15 @@ function load_table() {
             "orderable":      false,
             "data":           null,
             "defaultContent": '',
+            "width": 20,
         },
-        { "data": "name" },
+        {
+          "data": "name",
+          "render":function (data) {
+            var link = data.split("===")
+            return '<a href="'+link[1]+'">'+link[0]+'</a>';
+          }
+        },
         { "data": "code" },
         { "data": "A", "orderSequence": [ "desc", "asc"]},
         { "data": "B", "orderSequence": [ "desc", "asc"]},
@@ -73,6 +80,7 @@ function load_table() {
         { "data": "D", "orderSequence": [ "desc", "asc"]},
         { "data": "F", "orderSequence": [ "desc", "asc"]},
         { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+        { "data": "weighted_score", "visible": false},
       ],
     });
     // Add event listener for opening and closing details

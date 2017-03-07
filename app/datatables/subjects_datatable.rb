@@ -27,6 +27,7 @@ private
       subject.year_data.order("year desc").each do |year_datum|
         data.push({
           year: year_datum.year,
+          url: year_datum.url,
           term: ApplicationController.helpers.int2term(year_datum.term),
           number_of_students: year_datum.number_of_students,
           A: year_datum.A ? year_datum.A.round(1) : "　",
@@ -42,8 +43,8 @@ private
     ret = []
     subjects.each_with_index do |subject, i|
       ret.push({
-        name: subject.name,
-        # url: subject.url,
+        name: subject.name + "===" + subject.url,
+        url: subject.url,
         code: subject.code,
         A: subject.A.round(1),
         B: subject.B.round(1),
@@ -51,6 +52,7 @@ private
         D: subject.D.round(1),
         F: subject.F.round(1),
         mean_score: subject.mean_score.round(2),
+        weighted_score: subject.weighted_score ? subject.weighted_score.round(2): "　",
         year_data: year_data[i],
       })
     end
