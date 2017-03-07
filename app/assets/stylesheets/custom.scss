@@ -60,18 +60,23 @@ $gray-medium-light: #eaeaea;
   }
 }
 
+.details-control {
+  display: none;
+}
+
+
 .adsense1 {
   width: 200px;
   height: 200px;
 }
 
 
-td.details-control {
+td.my-button {
     background: image-url('open.png') no-repeat center;
     background-size: 15px 15px;
     cursor: pointer;
 }
-tr.shown td.details-control {
+tr.shown td.my-button {
     background: image-url('close.png') no-repeat center;
     background-size: 15px 15px;
 }

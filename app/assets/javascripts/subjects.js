@@ -51,7 +51,7 @@ function load_table() {
       "processing": true,
       "serverSide": true,
       "responsive": true,
-      "order" : [["8", 'desc']],
+      "order" : [["0", 'desc']],
       "ajax": {
         "url": "list",
         "dataType": 'json',
@@ -66,11 +66,14 @@ function load_table() {
       },
       "columns": [
         {
-            "className":      'details-control',
+            "className": 'details-control',
+            "data": "weighted_score",
+        },
+        {
+            "className":      'my-button',
             "orderable":      false,
             "data":           null,
             "defaultContent": '',
-            "width": 20,
         },
         {
           "data": "name",
@@ -86,11 +89,11 @@ function load_table() {
         { "data": "D", "orderSequence": [ "desc", "asc"]},
         { "data": "F", "orderSequence": [ "desc", "asc"]},
         { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
-        { "data": "weighted_score", "visible": false},
+        // { "data": "weighted_score", "visible": false},
       ],
     });
     // Add event listener for opening and closing details
-    $('#subjects tbody').on('click', 'td.details-control', function () {
+    $('#subjects tbody').on('click', 'td.my-button', function () {
         var tr = $(this).closest('tr');
         var row = table.row( tr );
 
@@ -101,7 +104,7 @@ function load_table() {
         }
         else {
             // Open this row
-            row.child( format(row.data()) ).show();
+            row.child( format(row.data()), "detail-table" ).show();
             tr.addClass('shown');
         }
     } );
