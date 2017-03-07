@@ -21,11 +21,12 @@ def int2term(num)
 end
 
 class BatchUpdateSyllabus
-  attr_accessor :post_data 
+  attr_accessor :post_data
   
   def self.retrieve_faculties
+    agent = Mechanize.new
     url = "http://duet.doshisha.ac.jp/info/gpaindex.jsp"
-    page = @agent.get(url)
+    page = agent.get(url)
     page.css('#select1 > td:nth-child(2) > select > option').each do |opt|
       Faculty.create(code: opt.attribute('value').text, name: opt.text.split('/')[0].strip) if opt.has_attribute?('value')
       # p "(code: #{opt.attribute('value').text}, name: #{opt.text.split('/')[0].strip})" if opt.has_attribute?('value')
@@ -47,10 +48,12 @@ class BatchUpdateSyllabus
     - 年度変える： search_term2
     - ページ変える： hOffSet (どこを基準に50件表示するか)
     """
-    @post_data = post_data
+    post_data
   end
   
-  def self.update_parameter(faculty, year)
+  def BatchUpdateSyllabus.update_parameter(faculty, year)
+    @@post_data ||= set_post_data
+    p "update params"
     hash = {
       'search_term4': faculty.code,
       'gakubuKenkyuka1': faculty.code,
@@ -58,29 +61,33 @@ class BatchUpdateSyllabus
       'search_term4_2': faculty.code != '060' ? 'ZZZ' : '0G0',
     }
     hash.each do |key, val|
-      @post_data[key.to_s] = val
+      @@post_data[key.to_s] = val
     end
   end
     
-  def self.retrieve_subjects_of(faculty)
+  def BatchUpdateSyllabus.retrieve_subjects_of(faculty)
+    agent = Mechanize.new
     url = "http://duet.doshisha.ac.jp/info/GPA"
     offset = 0
     trs = []
     loop do
-      @post_data['hOffSet'] = offset
-      page = @agent.post(url, @post_data)
+      @@post_data['hOffSet'] = offset
+      p "#{@@post_data}"
+      p "agent #{agent}"
+      binding.pry
+      page = agent.post(url, @@post_data)
       count = page.css('body > form > div > center > table:nth-child(2) > tr').count
       if count.eql? 1
         break
       end
       trs += page.css('body > form > div > center > table:nth-child(2) > tr').slice(2..-1)
-      
+      p "offset"
       offset += 50
     end
     trs
   end
   
-  def self.tr2array(tr)
+  def BatchUpdateSyllabus.tr2array(tr)
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 16
     teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
@@ -111,9 +118,7 @@ class BatchUpdateSyllabus
   
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSyllabus (retrieval year: #{year})"
-    @agent = Mechanize.new
     retrieve_faculties
-    set_post_data
     faculies = Faculty.all
     faculies.each do |faculty|
       p faculty.name
@@ -126,5 +131,7 @@ class BatchUpdateSyllabus
   end
 end
 
-year = ARGV[0]
-BatchUpdateSyllabus.execute year
+if __FILE__ == $0
+  year = ARGV[0]
+  BatchUpdateSyllabus.execute year
+end
