@@ -38,7 +38,7 @@ function format ( d ) {
 }
 
 function load_table() {
-  if (pat.test(url())) {
+  // if (pat.test(url())) {
     $.extend( $.fn.DataTable.defaults, { 
         language: {
             url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
@@ -52,24 +52,17 @@ function load_table() {
       "serverSide": true,
       "responsive": true,
       "iDisplayLength": 50,
-      "order" : [["0", 'desc']],
+      "order" : [["9", 'desc']],
       "ajax": {
-        "url": "list",
+        "url": "faculties/list",
         "dataType": 'json',
         "data": function ( d ) {
-            // Retrieve dynamic parameters
-            var part = url().split('/')
-            var id = part[part.length-1].match(/^[0-9]*/)[0]
-            var dt_params = {"faculty_id": id};
+            var dt_params = {"faculty_ids": faculty_ids};
             // Add dynamic parameters to the data object sent to the server
             if(dt_params){ $.extend(d, dt_params); }
          }
       },
       "columns": [
-        {
-            "className": 'details-control',
-            "data": "weighted_score",
-        },
         {
             "className":      'my-button',
             "orderable":      false,
@@ -90,7 +83,7 @@ function load_table() {
         { "data": "D", "orderSequence": [ "desc", "asc"]},
         { "data": "F", "orderSequence": [ "desc", "asc"]},
         { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
-        // { "data": "weighted_score", "visible": false},
+        { "data": "weighted_score", "visible": false},
       ],
     });
     // Add event listener for opening and closing details
@@ -109,5 +102,5 @@ function load_table() {
             tr.addClass('shown');
         }
     } );
-  }
+  // }
 }

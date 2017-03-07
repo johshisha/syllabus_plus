@@ -1,6 +1,6 @@
 class FacultiesController < ApplicationController
   def index
-    @faculties = Faculty.paginate(page: params[:page])
+    @faculties = Faculty.all
   end
   
   def show

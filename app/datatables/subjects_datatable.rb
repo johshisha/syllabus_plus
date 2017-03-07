@@ -46,12 +46,12 @@ private
         name: subject.name + "===" + subject.url,
         url: subject.url,
         code: subject.code,
-        A: subject.A.round(1),
-        B: subject.B.round(1),
-        C: subject.C.round(1),
-        D: subject.D.round(1),
-        F: subject.F.round(1),
-        mean_score: subject.mean_score.round(2),
+        A: subject.A ? subject.A.round(1) : "　",
+        B: subject.B ? subject.B.round(1) : "　",
+        C: subject.C ? subject.C.round(1) : "　",
+        D: subject.D ? subject.D.round(1) : "　",
+        F: subject.F ? subject.F.round(1) : "　",
+        mean_score: subject.mean_score ? subject.mean_score.round(2) : "　",
         weighted_score: subject.weighted_score ? subject.weighted_score.round(2): "　",
         year_data: year_data[i],
       })
@@ -64,8 +64,7 @@ private
   end
 
   def fetch_subjects
-    faculty = Faculty.find(params["faculty_id"])
-    subjects = faculty.summarized_subjects.includes(:year_data).order("#{sort_column}")
+    subjects = SummarizedSubject.where(faculty_id: params["faculty_ids"]).includes(:year_data).order("#{sort_column}")
     subjects = subjects.page(page).per_page(per_page)
     if params["search"]["value"].present?
       em_search = params["search"]["value"].tr('0-9a-zA-Z', '０-９ａ-ｚＡ-Ｚ')
@@ -91,7 +90,7 @@ private
     # columns = %w[name code]# A B C D F mean_score]
     return "" if params["order"]["0"].blank?
     order_data = params["order"]["0"]
-    order_column = columns[order_data["column"].to_i]
+    order_column = columns[order_data["column"].to_i] || "id"
     p "#{order_column} #{order_data["dir"]}"
     "#{order_column} #{order_data["dir"]}"
   end
