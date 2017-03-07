@@ -4,4 +4,4 @@ do
 done
 
 bundle exec rails runner lib/tasks/update_mean_scores_table.rb
-bundle exec rails runner lib/tasks/update_summarized_subjects.rb
+bundle exec rails runner lib/tasks/update_summarized_subjects.rb 2017
