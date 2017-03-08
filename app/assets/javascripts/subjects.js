@@ -37,70 +37,101 @@ function format ( d ) {
   
 }
 
-function load_table() {
-  // if (pat.test(url())) {
-    $.extend( $.fn.DataTable.defaults, { 
-        language: {
-            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
-        } 
-    });
-    
-    var table = $('#subjects').DataTable( {
-      // "sPaginationType": "full_numbers",
-      "JQueryUI": true,
-      "processing": true,
-      "serverSide": true,
-      "responsive": true,
-      "iDisplayLength": 50,
-      "order" : [["9", 'desc']],
-      "ajax": {
-        "url": "faculties/list",
-        "dataType": 'json',
-        "data": function ( d ) {
-            var dt_params = {"faculty_ids": faculty_ids};
-            // Add dynamic parameters to the data object sent to the server
-            if(dt_params){ $.extend(d, dt_params); }
-         }
-      },
-      "columns": [
-        {
-            "className":      'my-button',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": '',
-        },
-        {
-          "data": "name",
-          "render":function (data) {
-            var link = data.split("===")
-            return '<a href="'+link[1]+'">'+link[0]+'</a>';
-          }
-        },
-        { "data": "code" },
-        { "data": "A", "orderSequence": [ "desc", "asc"]},
-        { "data": "B", "orderSequence": [ "desc", "asc"]},
-        { "data": "C", "orderSequence": [ "desc", "asc"]},
-        { "data": "D", "orderSequence": [ "desc", "asc"]},
-        { "data": "F", "orderSequence": [ "desc", "asc"]},
-        { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
-        { "data": "weighted_score", "visible": false},
-      ],
-    });
-    // Add event listener for opening and closing details
-    $('#subjects tbody').on('click', 'td.my-button', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
+var cookie_array =[];
+function get_cookie_array(){
+  subject_ids = $.cookie('subjects').split(',');
+  cookie_array = subject_ids;
+}
 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
+function click_stock_button(element){
+  subject_id = element.id
+  
+  var index = cookie_array.indexOf(subject_id);
+  if (index == -1){ // don't exist subject_id
+    cookie_array.push(subject_id);
+    $(element).children('small').text('unstock');
+  }else{
+    cookie_array.splice(index, 1) ;
+    $(element).children('small').text('stock');
+  }
+  $.cookie('subjects', cookie_array);
+}
+
+function load_table() {
+  $.extend( $.fn.DataTable.defaults, {
+      language: {
+          url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+      } 
+  });
+  
+  var table = $('#subjects').DataTable( {
+    // "sPaginationType": "full_numbers",
+    "JQueryUI": true,
+    "processing": true,
+    "serverSide": true,
+    "responsive": true,
+    "iDisplayLength": 50,
+    "order" : [["10", 'desc']],
+    "ajax": {
+      "url": "faculties/list",
+      "dataType": 'json',
+      "data": function ( d ) {
+          var dt_params = {"faculty_ids": faculty_ids};
+          // Add dynamic parameters to the data object sent to the server
+          if(dt_params){ $.extend(d, dt_params); }
+       }
+    },
+    "columns": [
+      {
+          "className":      'my-button',
+          "orderable":      false,
+          "data":           null,
+          "defaultContent": '',
+      },
+      {
+        "data": "name",
+        "render":function (data) {
+          var link = data.split("===")
+          return '<a href="'+link[1]+'">'+link[0]+'</a>';
         }
-        else {
-            // Open this row
-            row.child( format(row.data()), "detail-table" ).show();
-            tr.addClass('shown');
+      },
+      { "data": "code" },
+      { "data": "A", "orderSequence": [ "desc", "asc"]},
+      { "data": "B", "orderSequence": [ "desc", "asc"]},
+      { "data": "C", "orderSequence": [ "desc", "asc"]},
+      { "data": "D", "orderSequence": [ "desc", "asc"]},
+      { "data": "F", "orderSequence": [ "desc", "asc"]},
+      { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+      {
+        "orderable":      false,
+        "data":           "subject_id",
+        "render":function (data) {
+          get_cookie_array();
+          if (cookie_array.indexOf(String(data)) >= 0) {
+            text = 'unstock';
+          }else{
+            text = 'stock';
+          }
+          return '<button type="button" class="stock-button btn btn-default" id="'+data+'" onclick="click_stock_button(this);"><small>'+text+'</small></button>';
         }
-    } );
-  // }
+      },
+      { "data": "weighted_score", "visible": false},
+    ],
+  });
+  // Add event listener for opening and closing details
+  $('#subjects tbody').on('click', 'td.my-button', function () {
+      var tr = $(this).closest('tr');
+      var row = table.row( tr );
+
+      if ( row.child.isShown() ) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+      }
+      else {
+          // Open this row
+          row.child( format(row.data()), "detail-table" ).show();
+          tr.addClass('shown');
+      }
+  } );
 }

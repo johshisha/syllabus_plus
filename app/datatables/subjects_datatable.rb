@@ -43,6 +43,7 @@ private
     ret = []
     subjects.each_with_index do |subject, i|
       ret.push({
+        subject_id: subject.id,
         name: subject.name + "===" + subject.url,
         url: subject.url,
         code: subject.code,

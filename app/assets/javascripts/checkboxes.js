@@ -36,7 +36,7 @@ function clicked(element) {
   $('#subjects').DataTable().ajax.reload(null, false);
 }
 
-function control_checkbox_visible(inputData){
+function control_checkbox_visible(){
   var obj = $(".checkbox-control")
   var text = $(".checkbox-control-text")
   if(obj.attr("status")=='close') {
