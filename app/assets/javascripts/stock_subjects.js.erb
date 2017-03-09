@@ -3,7 +3,7 @@ var modal_input = "";
 var cookie_array =[];
 
 function get_subjects_cookie_array(){
-  subject_ids = $.cookie('subjects').split('&');
+  subject_ids = ($.cookie('subjects')||"").split('&').filter(Boolean);
   cookie_array = subject_ids;
 }
 

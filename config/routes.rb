@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :stock_subjects, only: [:index, :create, :new, :destroy, :show]
+  resources :stock_subjects, only: [:index, :create, :new, :destroy, :show] do
+    collection do
+      delete :clear
+    end
+  end
 
   root 'faculties#index'
   

@@ -65,22 +65,6 @@ $gray-medium-light: #eaeaea;
   width: 60px;
 }
 
-.subject_table {
-  width: auto;
-  th {
-    text-align: center;
-  }
-  td {
-  }
-  .subject_name {
-    width: 200px;
-  }
-  .score {
-    text-align: center;
-    width: 60px;
-  }
-}
-
 // for datails of subject
 .year_data {
   th {
@@ -118,11 +102,23 @@ tr.shown td.my-button {
 }
 
 
+// for stocked subjects page
+.stocked_table {
+  width: auto;
+  th {
+    text-align: center;
+  }
+  td {
+  }
+  .subject_name {
+    width: 200px;
+  }
+  .score {
+    text-align: center;
+    width: 60px;
+  }
+}
 
-
-
-
-
-select{
-    font-family:"Courier New", Courier, monospace
+.delete-all-stock {
+  padding: 10px 10px 10px 10px;
 }

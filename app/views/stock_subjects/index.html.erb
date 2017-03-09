@@ -1,4 +1,4 @@
-<table class="subject_table">
+<table class="stocked_table">
   <tr>
     <th class="subject_name">科目名</th>
     <th>科目コード</th>
@@ -28,3 +28,6 @@
     </tr>
   <% end %>
 </table>
+<div class="delete-all-stock">
+  <%= link_to 'すべて削除する', clear_stock_subjects_path, method: :delete, class: "btn btn-default", data: { confirm: '本当によろしいですか？'} %>
+</div>

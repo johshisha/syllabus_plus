@@ -54,6 +54,12 @@ class StockSubjectsController < ApplicationController
     end
   end
   
+  def clear
+    cookies.delete "subject_schedules"
+    cookies.delete "subjects"
+    redirect_to stock_subjects_url
+  end
+  
   def get_week_and_periods
     return [["月", "火", "水", "木", "金", "土"], Array(1..7)]
   end
