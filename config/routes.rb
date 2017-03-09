@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :stock_subjects, only: [:index, :create, :new, :destroy]
+
   root 'faculties#index'
   
   get 'usage' => 'static_pages#usage'

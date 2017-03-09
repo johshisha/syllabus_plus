@@ -7,7 +7,12 @@
 <li>使い方がわからない方は<%= link_to "こちら", usage_path  %></li>
 <li>問い合わせは<%= link_to "Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>より</li>
 </ul>
-             
+
+<%= link_to 'New User', new_stock_subject_path, remote: true, class: "btn btn-lg btn-primary" %>
+<div id="stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+<%= render partial: 'remodal' %>
+
 <div class="checkbox-control-area">
   <button type="button" class="checkbox-control-text btn btn-default" onclick="control_checkbox_visible();">学部一覧を閉じる</button>
   <div class="checkbox-control" status="open" style="display: block">
