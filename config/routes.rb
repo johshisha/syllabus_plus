@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :stock_subjects, only: [:index, :create, :new, :destroy]
+  resources :stock_subjects, only: [:index, :create, :new, :destroy, :show]
 
   root 'faculties#index'
   

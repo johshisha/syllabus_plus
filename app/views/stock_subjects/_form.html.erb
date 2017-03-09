@@ -1,29 +1,38 @@
 <div class="modal-dialog">
   <div class="modal-content">
-    <%= form_tag stock_subjects_path, remote: true do %>
-      <table>
-        <tr>
-          <th><%= label_tag(:week, "曜日") %></th>
-          <th><%= label_tag(:period, "時間") %></th>
-        </tr>
-        <tr>
-          <td width="100">
-            <% @weeks.each_with_index do |week, i| %>
-              <p>
-                <%= week %> : <%= radio_button_tag "week", i %>
-              </p>
-            <% end %>
-          </td>
-          <td width="100">  
-            <% @periods.each_with_index do |period, i| %>
-              <p>
-                <%= period %> : <%= radio_button_tag "period", i %>
-              </p>
-            <% end %>
-          </td>
-        </tr>
-      </table>
-    <%= submit_tag "Submit" %>
+    <%= @subject.name %>
+    <% if @present %>
+      <%= form_tag "/stock_subjects/#{@subject.id}", method: "delete", remote: true do %>
+        <p>ストックから削除しますか？</p>
+        <%= submit_tag "削除" %>
+      <% end %>
+    <% else %>
+      <%= form_tag stock_subjects_path, remote: true do %>
+        <%= hidden_field_tag(:subject_id, @subject.id) %>
+        <table>
+          <tr>
+            <th><%= label_tag(:week, "曜日") %></th>
+            <th><%= label_tag(:period, "時間") %></th>
+          </tr>
+          <tr>
+            <td width="100">
+              <% @weeks.each_with_index do |week, i| %>
+                <p>
+                  <%= week %> : <%= radio_button_tag "week", i %>
+                </p>
+              <% end %>
+            </td>
+            <td width="100">  
+              <% @periods.each_with_index do |period, i| %>
+                <p>
+                  <%= period %> : <%= radio_button_tag "period", i %>
+                </p>
+              <% end %>
+            </td>
+          </tr>
+        </table>
+        <%= submit_tag "Submit" %>
+      <% end %>
     <% end %>
   </div>
 </div>
