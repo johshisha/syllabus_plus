@@ -50,7 +50,7 @@ function load_table() {
       "url": "faculties/list",
       "dataType": 'json',
       "data": function ( d ) {
-          var dt_params = {"faculty_ids": faculty_ids};
+          var dt_params = {"faculty_ids": faculty_ids}; //defined in checkboxes.js
           // Add dynamic parameters to the data object sent to the server
           if(dt_params){ $.extend(d, dt_params); }
        }
