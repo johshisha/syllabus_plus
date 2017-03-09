@@ -1,0 +1,27 @@
+var modal_status = "canceled";
+var modal_input = "";
+var cookie_array =[];
+
+function get_subjects_cookie_array(){
+  subject_ids = ($.cookie('subjects')||"").split('&').filter(Boolean);
+  cookie_array = subject_ids;
+}
+
+function stock_subject(element){
+  id = cookie_array[index]
+  cookie_array.splice(index, 1) ;
+  $(element).text('stock');
+  $.cookie('subjects', cookie_array);
+}
+
+function render_table_td(data){
+  get_subjects_cookie_array();
+  index = cookie_array.indexOf(String(data));
+  if (index >= 0) {
+    text = 'unstock';
+  }else{
+    text = 'stock';
+  }
+  var ret = '<a class="stock-button-'+data+' btn btn-default" data-remote="true" href="/stock_subjects/'+data+'">'+text+'</a>';
+  return ret;
+}

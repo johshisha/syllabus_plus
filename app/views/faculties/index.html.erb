@@ -8,12 +8,14 @@
 <li>問い合わせは<%= link_to "Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>より</li>
 </ul>
 
+<div id="stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
 <div class="checkbox-control-area">
   <button type="button" class="checkbox-control-text btn btn-default" onclick="control_checkbox_visible();">学部一覧を閉じる</button>
   <div class="checkbox-control" status="open" style="display: block">
     <h3>検索する学部を選んでください</h3>
     <ul class="faculties">
-      <label><input type="checkbox" value="all" onclick="clicked(this);" />すべての学部</label>
+      <label><input type="checkbox" id="all_faculty_ckb" value="all" onclick="clicked(this);" />すべての学部</label>
       <%= render @faculties %>
     </ul>
   </div>
@@ -31,6 +33,7 @@
       <th>D</th>
       <th>F</th>
       <th>平均評点</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>

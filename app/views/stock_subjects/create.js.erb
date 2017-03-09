@@ -1,0 +1,6 @@
+<% if @status[:status] == 'success' %>
+$("#stock-modal").modal("hide");
+$('<%= ".stock-button-#{@status[:id]}" %>').text("unstock");
+<%  elsif @status[:status] == 'fail' %>
+$('.modal-error-field').text('入力が間違っています');
+<% end %>

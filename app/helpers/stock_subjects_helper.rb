@@ -1,0 +1,2 @@
+module StockSubjectsHelper
+end

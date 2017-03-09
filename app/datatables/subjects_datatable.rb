@@ -43,6 +43,7 @@ private
     ret = []
     subjects.each_with_index do |subject, i|
       ret.push({
+        subject_id: subject.id,
         name: subject.name + "===" + subject.url,
         url: subject.url,
         code: subject.code,
@@ -91,7 +92,6 @@ private
     return "" if params["order"]["0"].blank?
     order_data = params["order"]["0"]
     order_column = columns[order_data["column"].to_i] || "id"
-    p "#{order_column} #{order_data["dir"]}"
     "#{order_column} #{order_data["dir"]}"
   end
 end

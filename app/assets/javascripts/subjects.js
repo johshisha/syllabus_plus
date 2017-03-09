@@ -1,8 +1,3 @@
-var pat = /faculties\/[0-9]*/;
-
-function url() {
-  return window.location.href;
-}
 function format ( d ) {
   // `d` is the original data object for the row
   html = '<table class="year_data" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
@@ -33,74 +28,78 @@ function format ( d ) {
     '</tr>';
   }
   html += '</table>';
-  return html;
-  
+  return html;  
 }
 
 function load_table() {
-  // if (pat.test(url())) {
-    $.extend( $.fn.DataTable.defaults, { 
-        language: {
-            url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
-        } 
-    });
-    
-    var table = $('#subjects').DataTable( {
-      // "sPaginationType": "full_numbers",
-      "JQueryUI": true,
-      "processing": true,
-      "serverSide": true,
-      "responsive": true,
-      "iDisplayLength": 50,
-      "order" : [["9", 'desc']],
-      "ajax": {
-        "url": "faculties/list",
-        "dataType": 'json',
-        "data": function ( d ) {
-            var dt_params = {"faculty_ids": faculty_ids};
-            // Add dynamic parameters to the data object sent to the server
-            if(dt_params){ $.extend(d, dt_params); }
-         }
+  $.extend( $.fn.DataTable.defaults, {
+      language: {
+          url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
+      } 
+  });
+  
+  var table = $('#subjects').DataTable( {
+    // "sPaginationType": "full_numbers",
+    "JQueryUI": true,
+    "processing": true,
+    "serverSide": true,
+    "responsive": true,
+    "iDisplayLength": 50,
+    "order" : [["10", 'desc']],
+    "ajax": {
+      "url": "faculties/list",
+      "dataType": 'json',
+      "data": function ( d ) {
+          var dt_params = {"faculty_ids": faculty_ids}; //defined in checkboxes.js
+          // Add dynamic parameters to the data object sent to the server
+          if(dt_params){ $.extend(d, dt_params); }
+       }
+    },
+    "columns": [
+      {
+          "className":      'my-button',
+          "orderable":      false,
+          "data":           null,
+          "defaultContent": '',
       },
-      "columns": [
-        {
-            "className":      'my-button',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": '',
-        },
-        {
-          "data": "name",
-          "render":function (data) {
-            var link = data.split("===")
-            return '<a href="'+link[1]+'">'+link[0]+'</a>';
-          }
-        },
-        { "data": "code" },
-        { "data": "A", "orderSequence": [ "desc", "asc"]},
-        { "data": "B", "orderSequence": [ "desc", "asc"]},
-        { "data": "C", "orderSequence": [ "desc", "asc"]},
-        { "data": "D", "orderSequence": [ "desc", "asc"]},
-        { "data": "F", "orderSequence": [ "desc", "asc"]},
-        { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
-        { "data": "weighted_score", "visible": false},
-      ],
-    });
-    // Add event listener for opening and closing details
-    $('#subjects tbody').on('click', 'td.my-button', function () {
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
+      {
+        "data": "name",
+        "render":function (data) {
+          var link = data.split("===")
+          return '<a href="'+link[1]+'">'+link[0]+'</a>';
+        }
+      },
+      { "data": "code" },
+      { "data": "A", "orderSequence": [ "desc", "asc"]},
+      { "data": "B", "orderSequence": [ "desc", "asc"]},
+      { "data": "C", "orderSequence": [ "desc", "asc"]},
+      { "data": "D", "orderSequence": [ "desc", "asc"]},
+      { "data": "F", "orderSequence": [ "desc", "asc"]},
+      { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+      {
+        "orderable":      false,
+        "data":           "subject_id",
+        "render":function (data) {
+          return render_table_td(data);
+        }
+      },
+      { "data": "weighted_score", "visible": false},
+    ],
+  });
+  // Add event listener for opening and closing details
+  $('#subjects tbody').on('click', 'td.my-button', function () {
+      var tr = $(this).closest('tr');
+      var row = table.row( tr );
 
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            row.child.hide();
-            tr.removeClass('shown');
-        }
-        else {
-            // Open this row
-            row.child( format(row.data()), "detail-table" ).show();
-            tr.addClass('shown');
-        }
-    } );
-  // }
+      if ( row.child.isShown() ) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+      }
+      else {
+          // Open this row
+          row.child( format(row.data()), "detail-table" ).show();
+          tr.addClass('shown');
+      }
+  } );
 }

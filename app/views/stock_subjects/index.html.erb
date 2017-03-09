@@ -1,0 +1,33 @@
+<table class="stocked_table">
+  <tr>
+    <th class="subject_name">科目名</th>
+    <th>科目コード</th>
+    <th class="score">A</th>
+    <th class="score">B</th>
+    <th class="score">C</th>
+    <th class="score">D</th>
+    <th class="score">F</th>
+    <th class="score">平均評点</th>
+    <th>削除</th>
+  </tr>
+  <% @subjects.each do |summarized_subject| %>
+    <tr class="table_data-<%= summarized_subject.id %>">
+      <td><%= link_to summarized_subject.name, summarized_subject.url %></td>
+      <td><%= summarized_subject.code %></td>
+      <td class="score"><%= summarized_subject.A.round(1) %></td>
+      <td class="score"><%= summarized_subject.B.round(1) %></td>
+      <td class="score"><%= summarized_subject.C.round(1) %></td>
+      <td class="score"><%= summarized_subject.D.round(1) %></td>
+      <td class="score"><%= summarized_subject.F.round(1) %></td>
+      <td class="score"><%= summarized_subject.mean_score.round(1) %></td>
+      <td class="delete-stock">
+        <%= form_tag "/stock_subjects/#{summarized_subject.id}", method: "delete", remote: true do %>
+          <%= submit_tag "削除", class: "btn delete-stock-button" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
+<div class="delete-all-stock">
+  <%= link_to 'すべて削除する', clear_stock_subjects_path, method: :delete, class: "btn btn-default", data: { confirm: '本当によろしいですか？'} %>
+</div>

@@ -1,0 +1,25 @@
+<table class="subject_table">
+  <tr>
+    <th class="subject_name">科目名</th>
+    <th>科目コード</th>
+    <th class="score">A</th>
+    <th class="score">B</th>
+    <th class="score">C</th>
+    <th class="score">D</th>
+    <th class="score">F</th>
+    <th class="score">平均評点</th>
+  </tr>
+  <% @subjects.each do |summarized_subject| %>
+    <tr class="table_data">
+      <td><%= @schedules[summarized_subject.id].to_s %>
+      <td><%= link_to summarized_subject.name, summarized_subject.url %></td>
+      <td><%= summarized_subject.code %></td>
+      <td class="score"><%= summarized_subject.A.round(1) %></td>
+      <td class="score"><%= summarized_subject.B.round(1) %></td>
+      <td class="score"><%= summarized_subject.C.round(1) %></td>
+      <td class="score"><%= summarized_subject.D.round(1) %></td>
+      <td class="score"><%= summarized_subject.F.round(1) %></td>
+      <td class="score"><%= summarized_subject.mean_score.round(1) %></td>
+    </tr>
+  <% end %>
+</table>
