@@ -1,0 +1,6 @@
+<% if @status[:status] == 'success'%>
+$("#stock-modal").modal("hide");
+$('<%= ".stock-button-#{@status[:id]}" %>').text("stock");
+<%  elsif @status[:status] == 'fail' %>
+alert('error!');
+<% end %>

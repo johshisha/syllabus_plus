@@ -17,13 +17,11 @@ function render_table_td(data){
   get_subjects_cookie_array();
   index = cookie_array.indexOf(String(data))
   if (index >= 0) {
-    text = 'unstock'
-    var ret = '<a class="btn btn-lg btn-primary" data-remote="true" href="/stock_subjects/'+data+'">'+text+'</a>';
-    
+    text = 'unstock'  
   }else{
     text = 'stock'
-    var ret = '<a class="btn btn-lg btn-primary" data-remote="true" href="/stock_subjects/'+data+'">'+text+'</a>';
   }
+  var ret = '<a class="stock-button-'+data+' btn btn-default" data-remote="true" href="/stock_subjects/'+data+'">'+text+'</a>';
   return ret
 }
 

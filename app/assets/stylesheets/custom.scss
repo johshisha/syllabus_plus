@@ -11,11 +11,13 @@ $gray-medium-light: #eaeaea;
     box-sizing: border-box;
 }
 
+// for usage page
 .usage_image {
   border: 1px solid gray;
   margin: 10px 10px 10px 10px;
 }
 
+// for select faculties
 .checkbox-control-text {
   margin: 10px 10px 10px 10px;
 }
@@ -25,13 +27,6 @@ $gray-medium-light: #eaeaea;
   background-color: #f5f5f5;
 }
 
-.stock-button {
-  padding: 1px 0 1px 0;
-  width: 60px;
-}
-
-/* Articles index */
-
 .faculties {
   list-style: none;
   margin: 0;
@@ -40,6 +35,34 @@ $gray-medium-light: #eaeaea;
     padding: 0 0;
     border-bottom: 1px solid $gray-lighter;
   }
+}
+
+
+// for modal
+.modal-content {
+  padding: 10px 10px 10px 10px;
+  text-align: center;
+  width: 60%;
+  margin: auto;
+}
+
+.modal-error-field {
+  width: 50%;
+  background-color: #f5f5f5;
+  color: red;
+  margin: auto;
+}
+
+.modal-table {
+  margin: auto;
+}
+
+
+
+// for datatables
+.stock-button {
+  padding: 1px 0 1px 0;
+  width: 60px;
 }
 
 .subject_table {
@@ -58,6 +81,7 @@ $gray-medium-light: #eaeaea;
   }
 }
 
+// for datails of subject
 .year_data {
   th {
     text-align: center;
@@ -75,12 +99,7 @@ $gray-medium-light: #eaeaea;
   content: none !important;
 }
 
-.adsense1 {
-  width: 200px;
-  height: 200px;
-}
-
-
+// for open and close datail
 td.my-button {
     background: image-url('open.png') no-repeat center;
     background-size: 15px 15px;
@@ -90,6 +109,16 @@ tr.shown td.my-button {
     background: image-url('close.png') no-repeat center;
     background-size: 15px 15px;
 }
+
+
+// for google adsense
+.adsense1 {
+  width: 200px;
+  height: 200px;
+}
+
+
+
 
 
 

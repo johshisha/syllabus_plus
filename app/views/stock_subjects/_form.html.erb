@@ -1,15 +1,16 @@
 <div class="modal-dialog">
   <div class="modal-content">
-    <%= @subject.name %>
+    <p><%= @subject.name %></p>
+    <div class='modal-error-field'></div>
     <% if @present %>
-      <%= form_tag "/stock_subjects/#{@subject.id}", method: "delete", remote: true do %>
+      <%= form_tag "/stock_subjects/#{@subject.id}", method: "delete", remote: true, class: "modal-form" do %>
         <p>ストックから削除しますか？</p>
-        <%= submit_tag "削除" %>
+        <%= submit_tag "削除", class: "btn" %>
       <% end %>
     <% else %>
-      <%= form_tag stock_subjects_path, remote: true do %>
+      <%= form_tag stock_subjects_path, remote: true, class: "modal-form" do %>
         <%= hidden_field_tag(:subject_id, @subject.id) %>
-        <table>
+        <table class="modal-table">
           <tr>
             <th><%= label_tag(:week, "曜日") %></th>
             <th><%= label_tag(:period, "時間") %></th>
@@ -31,7 +32,7 @@
             </td>
           </tr>
         </table>
-        <%= submit_tag "Submit" %>
+        <%= submit_tag "ストックに登録する", class: "btn" %>
       <% end %>
     <% end %>
   </div>
