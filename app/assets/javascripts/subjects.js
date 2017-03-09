@@ -1,8 +1,3 @@
-var pat = /faculties\/[0-9]*/;
-
-function url() {
-  return window.location.href;
-}
 function format ( d ) {
   // `d` is the original data object for the row
   html = '<table class="year_data" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';

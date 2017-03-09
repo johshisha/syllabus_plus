@@ -1,6 +1,12 @@
 <% if @status[:status] == 'success'%>
-$("#stock-modal").modal("hide");
-$('<%= ".stock-button-#{@status[:id]}" %>').text("stock");
+debugger;
+var url = window.location.href;
+if (url == "<%= root_url %>"){
+  $("#stock-modal").modal("hide");
+  $('<%= ".stock-button-#{@status[:id]}" %>').text("stock");
+}else if (url == "<%= stock_subjects_url %>"){
+  $('<%= ".table_data-#{@status[:id]}" %>').remove();
+}
 <%  elsif @status[:status] == 'fail' %>
 alert('error!');
 <% end %>
