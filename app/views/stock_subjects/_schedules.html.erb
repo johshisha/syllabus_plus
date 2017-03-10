@@ -25,7 +25,7 @@
   <% @schedules.each do |k,v| %>
     <% id, week, period = k, v[0], v[1] %>
     <% subject = @subjects.find(id) %>
-    var ret = '<p class="schedule-data-<%= id %>"><%= subject.name %></p>'
+    var ret = '<p class="schedule-data-<%= id %>">●<%= subject.name %></p>'
     schedule_table_add(ret, <%= week %>, <%= period %>);
   <% end %>
 </script>
