@@ -24,18 +24,12 @@ class StockSubjectsController < ApplicationController
 
   def create
     weeks, periods = get_week_and_periods
-    begin
-      week = params[:week]
-      period = params[:period]
-      subject_id = params[:subject_id]
-    rescue
-      week = nil
-      period = nil
-      subject_id = nil
-    end
+    week = params[:week]
+    period_array = params[:periods]
+    subject_id = params[:subject_id]
     respond_to do |format|
-      if week && period && subject_id
-        schedules "add", [subject_id, [week, period]]
+      if week && period_array && subject_id
+        schedules "add", [subject_id, [week, period_array]]
         ids "add", subject_id
         format.js { @status = {"status": "success", "id": subject_id} }
       else

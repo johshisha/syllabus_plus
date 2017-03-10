@@ -26,7 +26,7 @@
             <td width="100">  
               <% @periods.each_with_index do |period, i| %>
                 <p>
-                  <%= period %> : <%= radio_button_tag "period", i %>
+                  <%= period %> : <%= check_box_tag "periods[]", i %>
                 </p>
               <% end %>
             </td>
