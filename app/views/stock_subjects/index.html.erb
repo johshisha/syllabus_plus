@@ -1,4 +1,6 @@
-<%= render partial: 'schedules', local: @subjects %>
+<div class="schedule-talbe">
+<%= render 'schedules' %>
+</div>
 
 <table class="stocked_table">
   <tr>
@@ -13,7 +15,7 @@
     <th>削除</th>
   </tr>
   <% @subjects.each do |summarized_subject| %>
-    <tr class="table_data-<%= summarized_subject.id %>">
+    <tr class="table-data-<%= summarized_subject.id %>">
       <td><%= link_to summarized_subject.name, summarized_subject.url %></td>
       <td><%= summarized_subject.code %></td>
       <td class="score"><%= summarized_subject.A.round(1) %></td>

@@ -12,7 +12,7 @@
       <tr>
         <th class="time"><%= period %></th>
         <% @weeks.each_with_index do |week, w_i| %>
-          <td week="<%= w_i %>" period="<%= p_i %>" class="schedule-data">
+          <td week="<%= w_i %>" period="<%= p_i %>" class="schedule-data-td" id="schedule-<%= w_i %>_<%= p_i %>">
             <!-- p_i, w_iから該当する科目を持ってきたい（Ajaxでしよう）  -->
           </td>
         <% end %>
@@ -20,3 +20,12 @@
     <% end %>
   </tbody>
 </table>
+
+<script>
+  <% @schedules.each do |k,v| %>
+    <% id, week, period = k, v[0], v[1] %>
+    <% subject = @subjects.find(id) %>
+    var ret = '<p class="schedule-data-<%= id %>"><%= subject.name %></p>'
+    schedule_table_add(ret, <%= week %>, <%= period %>);
+  <% end %>
+</script>

@@ -3,9 +3,9 @@ class StockSubjectsController < ApplicationController
     weeks, periods = get_week_and_periods
     @weeks = weeks
     @periods = periods
+    @schedules = schedules "get"
     subject_ids = ids "get"
     @subjects = SummarizedSubject.where(id: subject_ids)
-    @schedules = cookies["subject_schedules"] || {}
   end
   
   def show
@@ -13,7 +13,7 @@ class StockSubjectsController < ApplicationController
     @weeks = weeks
     @periods = periods
     @subject = SummarizedSubject.find(params[:id])
-    @present = (cookies["subjects"] || "").split("&").reject(&:blank?).include?(@subject.id.to_s)
+    @present = ids("get").include?(@subject.id.to_s)
   end
 
   def new
@@ -25,16 +25,17 @@ class StockSubjectsController < ApplicationController
   def create
     weeks, periods = get_week_and_periods
     begin
-      week = params[:week] ? weeks[params[:week].to_i] : nil
-      value = params[:period] ? periods[params[:period].to_i] : nil
+      week = params[:week]
+      period = params[:period]
       subject_id = params[:subject_id]
     rescue
-      data = nil
+      week = nil
+      period = nil
       subject_id = nil
     end
     respond_to do |format|
-      if week && value && subject_id
-        schedules "add", [subject_id, [week, value]]
+      if week && period && subject_id
+        schedules "add", [subject_id, [week, period]]
         ids "add", subject_id
         format.js { @status = {"status": "success", "id": subject_id} }
       else
