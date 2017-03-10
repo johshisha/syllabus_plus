@@ -1,0 +1,58 @@
+<% term_name = ["spring", "autumn"] %>
+<div class="schedule">
+  <h2><%= term == 0 ? "春学期" : "秋学期" %></h2>
+  <table class="tmo_ctt <%= term_name[term] %>-term" id="<%= term %>">
+    <thead>
+      <tr>
+        <th class="blank"></th>
+        <% weeks.each do |week| %>
+          <th class="week"><%= week %></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% periods.each_with_index do |period, p_i| %>
+        <tr>
+          <th class="time"><%= period %></th>
+          <% weeks.each_with_index do |week, w_i| %>
+            <td week="<%= w_i %>" period="<%= p_i %>" class="schedule-data-td" id="schedule-<%= w_i %>_<%= p_i %>">
+              <!-- p_i, w_iから該当する科目を持ってきたい（Ajaxでしよう）  -->
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<div class="stocked <%= term_name[term] %>-term">
+  <table class="stocked_table">
+    <tr>
+      <th class="subject_name">科目名</th>
+      <th>科目コード</th>
+      <th class="score">A</th>
+      <th class="score">B</th>
+      <th class="score">C</th>
+      <th class="score">D</th>
+      <th class="score">F</th>
+      <th class="score">平均評点</th>
+      <th>削除</th>
+    </tr>
+    <% subjects.each do |summarized_subject| %>
+      <tr class="table-data-<%= summarized_subject.id %>">
+        <td><%= link_to summarized_subject.name, summarized_subject.url %></td>
+        <td><%= summarized_subject.code %></td>
+        <td class="score"><%= summarized_subject.A.round(1) %></td>
+        <td class="score"><%= summarized_subject.B.round(1) %></td>
+        <td class="score"><%= summarized_subject.C.round(1) %></td>
+        <td class="score"><%= summarized_subject.D.round(1) %></td>
+        <td class="score"><%= summarized_subject.F.round(1) %></td>
+        <td class="score"><%= summarized_subject.mean_score.round(1) %></td>
+        <td class="delete-stock">
+          <%= form_tag "/stock_subjects/#{summarized_subject.id}", method: "delete", remote: true do %>
+            <%= submit_tag "削除", class: "btn delete-stock-button" %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
