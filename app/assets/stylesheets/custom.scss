@@ -113,18 +113,31 @@ tr.shown td.my-button {
 
 // for stocked subjects page
 .stocked_table {
+  border-collapse: collapse;
+  border-spacing: 5px;
   width: auto;
+  tr {
+    border-bottom: 1px #eee solid;
+    
+  }
   th {
     text-align: center;
   }
   td {
+    text-align: center;
   }
   .subject_name {
     width: 200px;
   }
+  .subject_name-data {
+    text-align: left;;
+  }
   .score {
     text-align: center;
     width: 60px;
+  }
+  .delete-stock-button {
+    margin: 5px;
   }
 }
 

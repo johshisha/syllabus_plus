@@ -39,7 +39,7 @@
     </tr>
     <% subjects.each do |summarized_subject| %>
       <tr class="table-data-<%= summarized_subject.id %>">
-        <td><%= link_to summarized_subject.name, summarized_subject.url %></td>
+        <td class="subject_name-data"><%= link_to summarized_subject.name, summarized_subject.url %></td>
         <td><%= summarized_subject.code %></td>
         <td class="score"><%= summarized_subject.A.round(1) %></td>
         <td class="score"><%= summarized_subject.B.round(1) %></td>
