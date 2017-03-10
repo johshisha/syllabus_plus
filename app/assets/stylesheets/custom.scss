@@ -140,7 +140,6 @@ table.tmo_ctt {
   margin: 20px;
   th {
     border: solid gray 1px;
-    background: #FFFFCC;
     padding: 4px;
     width: auto;
   }
@@ -157,5 +156,17 @@ table.tmo_ctt {
     border: solid gray 1px;
     padding: 4px;
     width: auto;
+  }
+}
+
+table.spring-term {
+  th {
+    background: #F7C8CE;
+  }
+}
+
+table.autumn-term {
+  th {
+    background: #F39800;
   }
 }

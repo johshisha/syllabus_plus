@@ -27,6 +27,6 @@ function render_table_td(data){
 }
 
 //for time schedules
-function schedule_table_add(data, week, period){
-  $("#schedule-"+week+"_"+period).append(data);
+function schedule_table_add(data, week, period, term){
+  $("#"+term).find("#schedule-"+week+"_"+period).append(data);
 }
