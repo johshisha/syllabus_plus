@@ -25,3 +25,8 @@ function render_table_td(data){
   var ret = '<a class="stock-button-'+data+' btn btn-default" data-remote="true" href="/stock_subjects/'+data+'">'+text+'</a>';
   return ret;
 }
+
+//for time schedules
+function schedule_table_add(data, week, period, term){
+  $("#"+term).find("#schedule-"+week+"_"+period).append(data);
+}

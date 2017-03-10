@@ -24,7 +24,7 @@ function cookie_to(type, data){
 }
 
 // initialize
-$(function(){
+function initialize(){
   faculty_ids = convert_cookie_to("array", $.cookie('faculties'));
   // other
   $("[id=faculty_ckb]").each(function(index, element){
@@ -38,7 +38,7 @@ $(function(){
     $(element).prop("checked",true);
   }
   clicked_all(element);
-});
+}
 
 function confirm_check_status(element) {
   faculty_ids = convert_cookie_to("array", $.cookie('faculties'));
