@@ -1,5 +1,8 @@
 class StockSubjectsController < ApplicationController
   def index
+    weeks, periods = get_week_and_periods
+    @weeks = weeks
+    @periods = periods
     subject_ids = ids "get"
     @subjects = SummarizedSubject.where(id: subject_ids)
     @schedules = cookies["subject_schedules"] || {}

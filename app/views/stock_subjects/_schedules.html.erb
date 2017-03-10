@@ -1,0 +1,22 @@
+<table class="tmo_ctt">
+  <thead>
+    <tr>
+      <th class="blank"></th>
+      <% @weeks.each do |week| %>
+        <th class="week"><%= week %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @periods.each_with_index do |period, p_i| %>
+      <tr>
+        <th class="time"><%= period %></th>
+        <% @weeks.each_with_index do |week, w_i| %>
+          <td week="<%= w_i %>" period="<%= p_i %>" class="schedule-data">
+            <!-- p_i, w_iから該当する科目を持ってきたい（Ajaxでしよう）  -->
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

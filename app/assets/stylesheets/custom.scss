@@ -122,3 +122,31 @@ tr.shown td.my-button {
 .delete-all-stock {
   padding: 10px 10px 10px 10px;
 }
+
+// for schedule table
+table.tmo_ctt {
+  border: solid gray 2px;
+  border-collapse: collapse;
+  width: auto;
+  margin: 20px;
+  th {
+    border: solid gray 1px;
+    background: #FFFFCC;
+    padding: 4px;
+    width: auto;
+  }
+  th.week {
+    width: 150px;
+    text-align: center;
+  }
+  th.time {
+    height: 50px;
+    max-height: 100px;
+    text-align: center;
+  }
+  td {
+    border: solid gray 1px;
+    padding: 4px;
+    width: auto;
+  }
+}
