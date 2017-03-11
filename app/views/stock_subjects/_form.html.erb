@@ -1,6 +1,7 @@
 <div class="modal-dialog">
   <div class="modal-content">
     <p><%= @subject.name %></p>
+    <p><%= "#{int2term @subject.term}学期" %></p>
     <div class='modal-error-field'></div>
     <% if @present %>
       <%= form_tag "/stock_subjects/#{@subject.id}", method: "delete", remote: true, class: "modal-form" do %>
