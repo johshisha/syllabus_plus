@@ -20,14 +20,18 @@
             <td width="100">
               <% @weeks.each_with_index do |week, i| %>
                 <p>
-                  <%= week %> : <%= radio_button_tag "week", i %>
+                  <label>
+                    <%= week %> : <%= radio_button_tag "week", i %>
+                  </label>
                 </p>
               <% end %>
             </td>
             <td width="100">  
               <% @periods.each_with_index do |period, i| %>
                 <p>
-                  <%= period %> : <%= check_box_tag "periods[]", i %>
+                  <label>
+                    <%= period %> : <%= check_box_tag "periods[]", i %>
+                  </label>
                 </p>
               <% end %>
             </td>
