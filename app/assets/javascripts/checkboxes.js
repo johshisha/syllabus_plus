@@ -1,4 +1,5 @@
 var faculty_ids = []; // === this variable is used in subjects.js ===
+var term_ids = ["0", "1"];
 
 function convert_cookie_to(type, data){
   if (type == 'array') {
@@ -93,4 +94,20 @@ function control_checkbox_visible(){
       obj.attr('status', 'close'); 
       text.text("学部一覧を開く");
   }
+}
+
+
+// for checkbox in term
+function term_clicked(element) {
+  index = term_ids.indexOf($(element).val());
+  if ($(element).is(':checked')) {
+    if (index == -1 ){
+      term_ids.push($(element).val());
+    }
+  } else {
+    if (index >= 0){
+      term_ids.splice(index, 1);
+    }
+	}
+  $('#subjects').DataTable().ajax.reload(null, false);
 }

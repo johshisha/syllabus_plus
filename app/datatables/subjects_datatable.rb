@@ -65,7 +65,7 @@ private
   end
 
   def fetch_subjects
-    subjects = SummarizedSubject.where(faculty_id: params["faculty_ids"]).includes(:year_data).order("#{sort_column}")
+    subjects = SummarizedSubject.where(faculty_id: params["faculty_ids"], term: params["term_ids"]).includes(:year_data).order("#{sort_column}")
     subjects = subjects.page(page).per_page(per_page)
     if params["search"]["value"].present?
       em_search = params["search"]["value"].tr('0-9a-zA-Z', '０-９ａ-ｚＡ-Ｚ')
