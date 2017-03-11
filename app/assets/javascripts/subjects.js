@@ -129,7 +129,7 @@ function load_table() {
         { "data": "C", "orderSequence": [ "desc", "asc"] },
         { "data": "D", "orderSequence": [ "desc", "asc"] },
         { "data": "F", "orderSequence": [ "desc", "asc"]},
-        { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+        { "data": "mean_score", "orderSequence": [ "desc", "asc"], "width": "5%"},
         {
           "orderable":      false,
           "data":           "subject_id",
@@ -165,12 +165,12 @@ function load_table() {
             var link = data.split("===")
             return '<a href="'+link[1]+'">'+link[0]+'</a>';
           },
-          "width": "5%"
+          "width": "15%"
           
         },
         { "data": "A", "orderSequence": [ "desc", "asc"] },
         { "data": "F", "orderSequence": [ "desc", "asc"]},
-        { "data": "mean_score", "orderSequence": [ "desc", "asc"]},
+        { "data": "mean_score", "orderSequence": [ "desc", "asc"], "width": "8%"},
         {
           "orderable":      false,
           "data":           "subject_id",
