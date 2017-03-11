@@ -2,7 +2,10 @@
 <h3>同志社大学の学生のための履修支援サービス</h3>
 
 <hr>
-<p>科目の成績分布（A率，F率等）を一覧で見ることができ，シラバスへ簡単に飛ぶことができます．（PC推奨）</p>
+<div class="msg-for-sp">
+</div>
+
+<p>科目の成績分布（A率，F率等）を一覧で見ることができ，シラバスへ簡単に飛ぶことができます．</p>
 <ul>
 <li>使い方がわからない方は<%= link_to "こちら", usage_path  %></li>
 <li>問い合わせは<%= link_to "Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>より</li>
@@ -30,25 +33,14 @@
 </div>
 
 <table id="subjects" class="table table-striped table-bordered subjects display responsive no-wrap">
-  <thead>
-    <tr>
-      <th></th>
-      <th>科目名</th>
-      <th>科目コード</th>
-      <th>A</th>
-      <th>B</th>
-      <th>C</th>
-      <th>D</th>
-      <th>F</th>
-      <th>平均評点</th>
-      <th></th>
-    </tr>
+  <thead class="datatables-thead">
   </thead>
   <tbody>
   </tbody>
 </table>
 
 <script>
+  initialize_datatalbes();
   initialize();
   load_table();
 </script>
