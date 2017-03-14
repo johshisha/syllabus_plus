@@ -70,7 +70,7 @@ function format ( d ) {
   for(var i=0,data;data=d.year_data[i];i++){
     html +=
     '<tr>'+
-        '<td><a href="'+data.url+'">'+data.year+'</a></td>'+
+        '<td><a target="_blank" href="'+data.url+'">'+data.year+'</a></td>'+
         '<td>'+data.number_of_students+'</td>'+
         '<td>'+data.A+'</td>'+
         '<td>'+data.B+'</td>'+
@@ -120,7 +120,7 @@ function load_table() {
           "data": "name",
           "render":function (data) {
             var link = data.split("===")
-            return '<a href="'+link[1]+'">'+link[0]+'</a>';
+            return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
           }
         },
         { "data": "code", "orderSequence": [ "desc", "asc"] },
