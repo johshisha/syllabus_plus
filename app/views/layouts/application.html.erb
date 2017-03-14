@@ -82,6 +82,10 @@
                   <%= link_to "公式Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>
                   <small class="description">問い合わせ，要望はこちらからお願いします．</small>
                 </li>
+                <li>
+                  <%= link_to "注意事項", notice_path, target: :_blank %>
+                  <small class="description">ご利用の際には必ずお読みください．</small>
+                </li>
                 <!-- <li>
                   <%= link_to "公式Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>
                   <small class="description"><%= "あ"*100 %></small>
@@ -105,7 +109,16 @@
           </div><!--/.well -->
         </div><!--/span-->
       </div><!--/row-->
-
+      
+      <hr>
+      <div class="sitemap">
+        <p>
+          <%= link_to "使い方", usage_path, target: :_blank %> | 
+          <%= link_to "注意事項", notice_path, target: :_blank %> | 
+          <%= link_to "利用規約", agreement_path, target: :_blank %>
+        </p>
+      </div>
+        
       <footer>
         <p>&copy; 2017 Satoshi Sanjo</p>
       </footer>

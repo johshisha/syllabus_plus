@@ -8,7 +8,8 @@ Rails.application.routes.draw do
   root 'faculties#index'
   
   get 'usage' => 'static_pages#usage'
-  get 'stocked' => 'static_pages#stocked'
+  get 'agreement' => 'static_pages#agreement'
+  get 'notice' => 'static_pages#notice'
   
   resources :faculties, only: [:index, :show] do
     collection do
