@@ -3,11 +3,12 @@
   <div class="notice">
     <p>※本サイトはPC向けに作成したものです</p>
   </div>
+  <p><%= link_to "ご利用にあたっての注意事項", notice_path, target: :_blank %>をお読みの上ご利用ください．</p>
   <h3>科目検索機能</h3>
   <hr>
   <p>ホーム画面より，検索したい科目がある学部を選択してください．</p>
   <p>複数学部選択可能です．</p>
-  <p>選択し終えたら”学部一覧を閉じる”のボタンを押せば隠れるので邪魔になりません．（再度押せば開きます．）</p>
+  <p>選択し終えたら”学部一覧を閉じる”のボタンを押せば隠れるので邪魔になりません．（再度押せば開きます）</p>
   <%= image_tag("usage/select_faculty.png", alt: "学部を選択する", width: "250px",  class: "usage_image") %>
   <p>学部に対応する科目の一覧が表示されます．</p>
   <%= image_tag("usage/all_subjects.png", alt: "科目の一覧", width: "60%", class: "usage_image") %>
@@ -30,7 +31,7 @@
   <div class="notice">
     <p>ストック機能はブラウザにデータを保存しています．</p>
     <p>ブラウザを変えたり，cookieをクリアしてしまうとデータは消去されてしまいます．</p>
-    <p>また学校のPCではシャットダウンすると自動的に消去されます．？</p>
+    <p>また学校のPCではシャットダウンすると自動的に消去されます．</p>
   </div>
   <p>受講したい，検討したい科目があれば"stock"ボタンをクリックすると，ストックしておくことができます．</p>
   <%= image_tag("usage/stock_button.png", alt: "stockボタン", width: "30%", class: "usage_image") %>
