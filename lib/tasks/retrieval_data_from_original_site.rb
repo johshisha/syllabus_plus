@@ -10,22 +10,13 @@ require "#{Rails.root}/app/models/teacher"
 require "#{Rails.root}/app/models/subject_relationship"
 require "#{Rails.root}/app/models/faculty"
 
-def term2int(term)
-  term_array = ['春', '秋']
-  term_array.index(term)
-end
-
-def int2term(num)
-  term_array = ['春', '秋']
-  term_array[num]
-end
-
 class BatchUpdateSyllabus
-  attr_accessor :post_data 
+  attr_accessor :post_data
   
   def self.retrieve_faculties
+    agent = Mechanize.new
     url = "http://duet.doshisha.ac.jp/info/gpaindex.jsp"
-    page = @agent.get(url)
+    page = agent.get(url)
     page.css('#select1 > td:nth-child(2) > select > option').each do |opt|
       Faculty.create(code: opt.attribute('value').text, name: opt.text.split('/')[0].strip) if opt.has_attribute?('value')
       # p "(code: #{opt.attribute('value').text}, name: #{opt.text.split('/')[0].strip})" if opt.has_attribute?('value')
@@ -47,10 +38,12 @@ class BatchUpdateSyllabus
     - 年度変える： search_term2
     - ページ変える： hOffSet (どこを基準に50件表示するか)
     """
-    @post_data = post_data
+    post_data
   end
   
   def self.update_parameter(faculty, year)
+    @post_data ||= set_post_data
+    p "update params"
     hash = {
       'search_term4': faculty.code,
       'gakubuKenkyuka1': faculty.code,
@@ -63,18 +56,22 @@ class BatchUpdateSyllabus
   end
     
   def self.retrieve_subjects_of(faculty)
+    agent = Mechanize.new
     url = "http://duet.doshisha.ac.jp/info/GPA"
     offset = 0
     trs = []
     loop do
       @post_data['hOffSet'] = offset
-      page = @agent.post(url, @post_data)
+      p "#{@post_data}"
+      p "agent #{agent}"
+      binding.pry
+      page = agent.post(url, @post_data)
       count = page.css('body > form > div > center > table:nth-child(2) > tr').count
       if count.eql? 1
         break
       end
       trs += page.css('body > form > div > center > table:nth-child(2) > tr').slice(2..-1)
-      
+      p "offset"
       offset += 50
     end
     trs
@@ -97,7 +94,7 @@ class BatchUpdateSyllabus
       subject = Subject.find_by(code: code)
       subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id) if not subject
       year_data = YearDatum.find_by(subject_id: subject.id, year: year)
-      year_data = YearDatum.create(year: year, term: term2int(term), url: subject_url, number_of_students: students_number,
+      year_data = YearDatum.create(year: year, term: ApplicationController.helpers.term2int(term), url: subject_url, number_of_students: students_number,
                       A: a, B: b, C: c, D: d, F: f, other: other, mean_score: mean_score, subject_id: subject.id) if not year_data
       teachers.each do |teacher|
         t = Teacher.find_by(name: teacher)
@@ -111,9 +108,7 @@ class BatchUpdateSyllabus
   
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSyllabus (retrieval year: #{year})"
-    @agent = Mechanize.new
     retrieve_faculties
-    set_post_data
     faculies = Faculty.all
     faculies.each do |faculty|
       p faculty.name
@@ -126,5 +121,7 @@ class BatchUpdateSyllabus
   end
 end
 
-year = ARGV[0]
-BatchUpdateSyllabus.execute year
+if __FILE__ == $0
+  year = ARGV[0]
+  BatchUpdateSyllabus.execute year
+end

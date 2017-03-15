@@ -72,6 +72,7 @@ gem 'thor', '0.19.1'
 # For scraping
 gem 'nokogiri'
 gem 'mechanize'
+gem 'robotex'
 
 # For paginate
 gem 'will_paginate',           '3.1.0'

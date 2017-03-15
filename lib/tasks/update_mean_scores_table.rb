@@ -50,4 +50,6 @@ class BatchUpdateMeanScore
   end
 end
 
-BatchUpdateMeanScore.execute
+if __FILE__ == $0
+  BatchUpdateMeanScore.execute
+end
