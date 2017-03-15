@@ -32,9 +32,11 @@ function initialize_datatalbes(){
     "<th></th>" +
     "</tr>";
     sort_index = "5";
-    $(".msg-for-sp").append('<p class="notice">このサイトはPC推奨です</p>');
+    if ($(".msg-for-sp").find(".notice").length == 0){
+      $(".msg-for-sp").append('<p class="notice">このサイトはPC推奨です</p>');
+    }
   }else{
-    var thead = "<tr>"+
+    var thead = "<tr class='thead-data'>"+
     "<th></th>" +
     "<th>科目名</th>" +
     "<th>科目コード</th>" +
@@ -47,7 +49,9 @@ function initialize_datatalbes(){
     "<th></th>" +
     "</tr>";
   }
-  $(".datatables-thead").append(thead);
+  if ($(".datatables-thead").find(".thead-data").length == 0){
+    $(".datatables-thead").append(thead);
+  }
 }
 
 
@@ -90,6 +94,7 @@ function load_table() {
           url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
       } 
   });
+  debugger;
   if (is_pc){
     var table = $('#subjects').DataTable( {
       // "sPaginationType": "full_numbers",

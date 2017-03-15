@@ -27,6 +27,8 @@ function render_table_td(data){
 }
 
 //for time schedules
-function schedule_table_add(data, week, period, term){
-  $("#"+term).find("#schedule-"+week+"_"+period).append(data);
+function schedule_table_add(class_id, subject_name, week, period, term){
+  if ($("#"+term).find("#schedule-"+week+"_"+period).find('.'+class_id).length == 0){
+    $("#"+term).find("#schedule-"+week+"_"+period).append('<p class="'+class_id+'">'+subject_name+'</p>');
+  }
 }
