@@ -125,7 +125,7 @@ class BatchUpdateSummarizedSubject
         subject = Subject.create(name: name, code: code, faculty_id: faculty_id)
       end
       
-      score = subject.subject_score || SubjectScore.new()
+      score = subject.subject_score || SubjectScore.new(A: 0, B: 0, C: 0, D: 0, F: 0, mean_score: 0, other: 0)
       teacher = Teacher.find_by(name: teachers[0])
       teacher_id = teacher ? teacher.id : Teacher.create(name: teachers[0]).id
       if summarized_subject = SummarizedSubject.find_by(subject_id: subject.id)
@@ -142,11 +142,15 @@ class BatchUpdateSummarizedSubject
     p "#{DateTime.now}, Start BatchUpdateSummarizedSubject"
     faculties = Faculty.all
     faculties.each do |faculty|
-      SummarizedSubject.delete_all(faculty_id: faculty.id) #reset at once
       update_parameter(faculty, year)
       trs = retrieve_subjects_of faculty
-      updated = update_tables(trs, faculty.id)
-      p "updated #{updated} subjects"
+      if trs.length > 0
+        SummarizedSubject.delete_all(faculty_id: faculty.id) #reset at once
+        updated = update_tables(trs, faculty.id)
+        p "updated #{updated} subjects in #{faculty.name}"
+      else
+        p "cannot retrieval data in #{faculty.name}"
+      end
     end
     p "#{DateTime.now}, Finish BatchUpdateSummarizedSubject"
   end
@@ -154,5 +158,9 @@ end
 
 if __FILE__ == $0
   year = ARGV[0]
-  BatchUpdateSummarizedSubject.execute year
+  if year
+    BatchUpdateSummarizedSubject.execute year
+  else
+    p "please set retrieval year"
+  end
 end
