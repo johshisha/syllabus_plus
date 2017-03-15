@@ -10,16 +10,6 @@ require "#{Rails.root}/app/models/teacher"
 require "#{Rails.root}/app/models/subject_relationship"
 require "#{Rails.root}/app/models/faculty"
 
-def term2int(term)
-  term_array = ['春', '秋']
-  term_array.index(term)
-end
-
-def int2term(num)
-  term_array = ['春', '秋']
-  term_array[num]
-end
-
 class BatchUpdateSyllabus
   attr_accessor :post_data
   
@@ -51,8 +41,8 @@ class BatchUpdateSyllabus
     post_data
   end
   
-  def BatchUpdateSyllabus.update_parameter(faculty, year)
-    @@post_data ||= set_post_data
+  def self.update_parameter(faculty, year)
+    @post_data ||= set_post_data
     p "update params"
     hash = {
       'search_term4': faculty.code,
@@ -61,21 +51,21 @@ class BatchUpdateSyllabus
       'search_term4_2': faculty.code != '060' ? 'ZZZ' : '0G0',
     }
     hash.each do |key, val|
-      @@post_data[key.to_s] = val
+      @post_data[key.to_s] = val
     end
   end
     
-  def BatchUpdateSyllabus.retrieve_subjects_of(faculty)
+  def self.retrieve_subjects_of(faculty)
     agent = Mechanize.new
     url = "http://duet.doshisha.ac.jp/info/GPA"
     offset = 0
     trs = []
     loop do
-      @@post_data['hOffSet'] = offset
-      p "#{@@post_data}"
+      @post_data['hOffSet'] = offset
+      p "#{@post_data}"
       p "agent #{agent}"
       binding.pry
-      page = agent.post(url, @@post_data)
+      page = agent.post(url, @post_data)
       count = page.css('body > form > div > center > table:nth-child(2) > tr').count
       if count.eql? 1
         break
@@ -87,7 +77,7 @@ class BatchUpdateSyllabus
     trs
   end
   
-  def BatchUpdateSyllabus.tr2array(tr)
+  def self.tr2array(tr)
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 16
     teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
@@ -104,7 +94,7 @@ class BatchUpdateSyllabus
       subject = Subject.find_by(code: code)
       subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id) if not subject
       year_data = YearDatum.find_by(subject_id: subject.id, year: year)
-      year_data = YearDatum.create(year: year, term: term2int(term), url: subject_url, number_of_students: students_number,
+      year_data = YearDatum.create(year: year, term: ApplicationController.helpers.term2int(term), url: subject_url, number_of_students: students_number,
                       A: a, B: b, C: c, D: d, F: f, other: other, mean_score: mean_score, subject_id: subject.id) if not year_data
       teachers.each do |teacher|
         t = Teacher.find_by(name: teacher)
