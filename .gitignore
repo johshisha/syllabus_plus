@@ -20,7 +20,7 @@
 # Ignore secret file
 .env
 
-# Ignore Untitle files
+# Ignore ipynb files
 *Untitle*
 *.ipynb_checkpoints*
 
