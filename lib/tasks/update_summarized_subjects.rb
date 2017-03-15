@@ -140,6 +140,7 @@ class BatchUpdateSummarizedSubject
   
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSummarizedSubject"
+    retrieve_faculties # retrieval faculty code in syllabus
     faculties = Faculty.all
     faculties.each do |faculty|
       update_parameter(faculty, year)
