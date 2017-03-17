@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317140159) do
+ActiveRecord::Schema.define(version: 20170317174452) do
 
   create_table "faculties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",          null: false
@@ -18,6 +18,19 @@ ActiveRecord::Schema.define(version: 20170317140159) do
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
     t.string   "syllabus_code"
+  end
+
+  create_table "stocked_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "uuid",       null: false
+    t.integer  "subject_id"
+    t.integer  "week",       null: false
+    t.string   "periods",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["periods"], name: "index_stocked_logs_on_periods", using: :btree
+    t.index ["subject_id"], name: "index_stocked_logs_on_subject_id", using: :btree
+    t.index ["uuid"], name: "index_stocked_logs_on_uuid", using: :btree
+    t.index ["week"], name: "index_stocked_logs_on_week", using: :btree
   end
 
   create_table "subject_relationships", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -93,7 +106,10 @@ ActiveRecord::Schema.define(version: 20170317140159) do
     t.index ["mean_score"], name: "index_summarized_subjects_on_mean_score", using: :btree
     t.index ["name"], name: "index_summarized_subjects_on_name", using: :btree
     t.index ["number_of_students"], name: "index_summarized_subjects_on_number_of_students", using: :btree
+    t.index ["place"], name: "index_summarized_subjects_on_place", using: :btree
     t.index ["subject_id"], name: "index_summarized_subjects_on_subject_id", using: :btree
+    t.index ["teacher_name"], name: "index_summarized_subjects_on_teacher_name", using: :btree
+    t.index ["term"], name: "index_summarized_subjects_on_term", using: :btree
     t.index ["weighted_score"], name: "index_summarized_subjects_on_weighted_score", using: :btree
   end
 
@@ -129,6 +145,7 @@ ActiveRecord::Schema.define(version: 20170317140159) do
     t.index ["year"], name: "index_year_data_on_year", using: :btree
   end
 
+  add_foreign_key "stocked_logs", "subjects"
   add_foreign_key "subject_scores", "subjects"
   add_foreign_key "subjects", "faculties"
   add_foreign_key "summarized_subjects", "faculties"
