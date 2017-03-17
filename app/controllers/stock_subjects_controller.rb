@@ -72,7 +72,7 @@ class StockSubjectsController < ApplicationController
     elsif method == 'get'
       return cookie_hash
     end
-    cookies["subject_schedules"] = JSON.dump cookie_hash.stringify_keys
+    cookies.permanent["subject_schedules"] = JSON.dump cookie_hash.stringify_keys
   end
   
   def ids(method, data=nil)
@@ -84,6 +84,6 @@ class StockSubjectsController < ApplicationController
     elsif method == 'get'
       return subject_ids
     end
-    cookies["subjects"] = subject_ids
+    cookies.permanent["subjects"] = subject_ids
   end
 end
