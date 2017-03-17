@@ -24,10 +24,11 @@ private
     ret = []
     subjects.each_with_index do |subject, i|
       ret.push({
-        subject_id: subject.id,
+        subject_id: subject.subject_id,
         name: subject.name + "===" + subject.url,
         url: subject.url,
         code: subject.code,
+        teacher_name: subject.teacher_name ? subject.teacher_name : "　",
         A: subject.A ? subject.A.round(1) : "　",
         B: subject.B ? subject.B.round(1) : "　",
         C: subject.C ? subject.C.round(1) : "　",
@@ -49,7 +50,7 @@ private
     subjects = subjects.page(page).per_page(per_page)
     if params["search"]["value"].present?
       em_search = params["search"]["value"].tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')
-      subjects = subjects.where("name like :search or code like :search", search: "%#{em_search}%")
+      subjects = subjects.where("name like :search or code like :search or teacher_name like :search", search: "%#{em_search}%")
     end
     subjects
   end

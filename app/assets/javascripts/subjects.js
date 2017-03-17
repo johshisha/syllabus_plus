@@ -36,6 +36,7 @@ function initialize_datatalbes(){
   }else{
     var thead = "<tr class='thead-data'>"+
     "<th>科目名</th>" +
+    "<th>先生</th>" +
     "<th>A</th>" +
     "<th>B</th>" +
     "<th>C</th>" +
@@ -56,7 +57,6 @@ function load_table() {
           url: "http://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Japanese.json"
       } 
   });
-  debugger;
   if (is_pc){
     var table = $('#subjects').DataTable( {
       // "sPaginationType": "full_numbers",
@@ -65,7 +65,7 @@ function load_table() {
       "serverSide": true,
       "responsive": true,
       "iDisplayLength": 50,
-      "order" : [["8", 'desc']],
+      "order" : [["9", 'desc']],
       "ajax": {
         "url": "faculties/list",
         "dataType": 'json',
@@ -83,6 +83,7 @@ function load_table() {
             return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
           }
         },
+        { "data": "teacher_name", "orderSequence": [ "desc", "asc"] },
         { "data": "A", "orderSequence": [ "desc", "asc"] },
         { "data": "B", "orderSequence": [ "desc", "asc"] },
         { "data": "C", "orderSequence": [ "desc", "asc"] },
