@@ -68,7 +68,7 @@ private
     subjects = SummarizedSubject.where(faculty_id: params["faculty_ids"], term: params["term_ids"]).includes(:year_data).order("#{sort_column}")
     subjects = subjects.page(page).per_page(per_page)
     if params["search"]["value"].present?
-      em_search = params["search"]["value"].tr('0-9a-zA-Z', '０-９ａ-ｚＡ-Ｚ')
+      em_search = params["search"]["value"].tr('０-９ａ-ｚＡ-Ｚ', '0-9a-zA-Z')
       subjects = subjects.where("name like :search or code like :search", search: "%#{em_search}%")
     end
     subjects

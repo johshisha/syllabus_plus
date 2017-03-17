@@ -34,6 +34,7 @@ class BatchUpdateMeanScore
     
   def self.execute
     p "#{DateTime.now}, Start BatchUpdateMeanScore"
+    before = SubjectScore.count
     faculties = Faculty.all
     faculties.each do |faculty|
       subjects = faculty.subjects
@@ -46,6 +47,7 @@ class BatchUpdateMeanScore
         end
       end
     end
+    p "updated #{SubjectScore.count - before} subjects"
     p "#{DateTime.now}, Finish BatchUpdateMeanScore"
   end
 end
