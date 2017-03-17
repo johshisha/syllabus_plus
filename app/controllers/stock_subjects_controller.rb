@@ -31,6 +31,12 @@ class StockSubjectsController < ApplicationController
       if week && period_array && subject_id
         schedules "add", [subject_id, [week, period_array]]
         ids "add", subject_id
+        uuid = cookies.signed["uuid"]
+        if log = StockedLog.find_by(uuid: uuid, subject_id: subject_id)
+          log.update(uuid: uuid, subject_id: subject_id, week: week, periods: period_array)
+        else
+          StockedLog.create(uuid: uuid, subject_id: subject_id, week: week, periods: period_array)
+        end
         format.js { @status = {"status": "success", "id": subject_id} }
       else
         format.js { @status = {"status": "fail"} }
@@ -44,7 +50,6 @@ class StockSubjectsController < ApplicationController
       if subject_id
         schedules "delete", subject_id
         ids "delete", subject_id
-        p subject_id
         format.js { @status = {"status": "success", "id": subject_id} }
       else
         format.js { @status = {"status": "fail"} }
