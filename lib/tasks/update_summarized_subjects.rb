@@ -75,6 +75,7 @@ class BatchUpdateSummarizedSubject
       end
       trs += page.css('body > table:nth-child(4) > tbody > tr > td > table > tr')
       clicknumber += 1
+      sleep(1)
     end
     trs
   end
@@ -106,9 +107,10 @@ class BatchUpdateSummarizedSubject
     end
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 7
-    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0|   )+/, "").strip if x.text != ""}.compact
+    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0|   )+/, "").strip if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
     url = tds[2].css('a').attr('href').text.gsub('../', 'https://syllabus.doshisha.ac.jp/')
     name, term = get_name_term(tds[2].css('a'))
+    name = ApplicationController.helpers.convert_to_en name
     code = get_code(tds[0].text)
     place = ApplicationController.helpers.place2int tds[4].text.strip.gsub(/(\xc2\xa0|\s)+/, "")
     credit = tds[5].text.gsub(/(\xc2\xa0|\s|単位)+/,'').to_i
@@ -123,6 +125,7 @@ class BatchUpdateSummarizedSubject
         subject.update(name: name, code: code, faculty_id: faculty_id)
       else
         subject = Subject.create(name: name, code: code, faculty_id: faculty_id)
+        p "create subject (#{subject.name}) in Faculty(#{faculty_id})" if subject.valid?
       end
       
       score = subject.subject_score || SubjectScore.new(A: 0, B: 0, C: 0, D: 0, F: 0, mean_score: 0, other: 0)

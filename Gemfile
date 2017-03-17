@@ -101,3 +101,6 @@ gem 'jquery-ui-rails'
 # Itamae
 gem 'itamae'
 gem 'pry'
+
+# convert to en
+gem 'moji'

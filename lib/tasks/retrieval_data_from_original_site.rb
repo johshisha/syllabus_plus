@@ -15,17 +15,33 @@ class BatchUpdateSyllabus
   
   def self.retrieve_faculties
     agent = Mechanize.new
-    url = "http://duet.doshisha.ac.jp/info/gpaindex.jsp"
+    url = 'https://duet.doshisha.ac.jp/kokai/html/fi/fi020/FI02001G.html'
     page = agent.get(url)
-    page.css('#select1 > td:nth-child(2) > select > option').each do |opt|
-      Faculty.create(code: opt.attribute('value').text, name: opt.text.split('/')[0].strip) if opt.has_attribute?('value')
-      # p "(code: #{opt.attribute('value').text}, name: #{opt.text.split('/')[0].strip})" if opt.has_attribute?('value')
+    table = page.css('#form1 > div > div > table')
+    table.css('tr')[1].css('td')[1].css('select > option').each do |opt|
+      name =  opt.text
+      if name == '全学共通教養教育科目(外国語教育科目)'
+        name = "語学科目"
+      elsif name == "全学共通教養教育科目(保健体育科目)"
+        name = "保健体育科目"
+      elsif name == "全学共通教養教育科目(外国語教育科目・保健体育科目以外)"
+        name = "全学共通教養教育科目"
+      elsif name == "グローバル教育プログラム科目"
+        name = "留学生科目"
+      end
+      p "#{name}: #{opt.attr('value')}"
+      faculty = Faculty.find_by(name: name)
+      if faculty != nil
+        faculty.update(name: faculty.name, code: opt.attr("value"), syllabus_code: faculty.syllabus_code)
+      end
     end
   end
   
   def self.set_post_data
-    # example data of 神学部2016
-    example = "furiwakeid=GP1001&hQueryNo=1&hOffSet=0&pageNo=1&rowCount=50&search_term8=&search_term4=010&search_term4_2=ZZZ&toEmpty4=0&toEmpty0=1&languageCode=ja&search_term2=2016&search_term6=12&gakubuKenkyuka1=010&search_term0="
+    #  神学部2016
+    example = "form1%3AselectedIndex=0&form1%3AselectedPage=1&form1%3AtopPosition=0&form1%3AkaikoNendolist=2016&form1%3A_id78=&form1%3A_id82=1&form1%3A_id86=11001&form1%3A_id90=&form1%3A_id92=&form1%3A_id104=&form1%3A_id116=&form1%2Fhtml%2Ffi%2Ffi020%2FFI02001G.html=form1&form1%3A__link_clicked__=form1%3AdoKensaku"
+    example = example.gsub('%3A', ':')
+    example = example.gsub('%2F', '/')
     post_data = {}
     example.split("&").each do |line|
       l =  line.split('=')
@@ -34,9 +50,9 @@ class BatchUpdateSyllabus
     end
     """
     # scraping memo
-    - 学部変える： search_term4, gakubuKenkyuka1 (search_term4_2は理工だけ0G0)
-    - 年度変える： search_term2
-    - ページ変える： hOffSet (どこを基準に50件表示するか)
+    - 学部変える： form1:_id86
+    - 年度変える： form1:kaikoNendolist
+    - ページ変える： form1:selectedPage (何ページ目か)
     """
     post_data
   end
@@ -45,10 +61,8 @@ class BatchUpdateSyllabus
     @post_data ||= set_post_data
     p "update params"
     hash = {
-      'search_term4': faculty.code,
-      'gakubuKenkyuka1': faculty.code,
-      'search_term2': year,
-      'search_term4_2': faculty.code != '060' ? 'ZZZ' : '0G0',
+      'form1:_id86': faculty.code,
+      'form1:kaikoNendolist': year,
     }
     hash.each do |key, val|
       @post_data[key.to_s] = val
@@ -57,42 +71,61 @@ class BatchUpdateSyllabus
     
   def self.retrieve_subjects_of(faculty)
     agent = Mechanize.new
-    url = "http://duet.doshisha.ac.jp/info/GPA"
-    offset = 0
+    url = "https://duet.doshisha.ac.jp/kokai/html/fi/fi020/FI02001G.html"
+    page_number = 1
+    @post_data["form1:__link_clicked__"] = "form1:doKensaku"
+    page = agent.post(url) # なぜかpostの前に一旦アクセスしないといけない
     trs = []
+    first = nil
     loop do
-      @post_data['hOffSet'] = offset
-      p "#{@post_data}"
-      p "agent #{agent}"
-      binding.pry
+      @post_data['form1:selectedPage'] = page_number
+      if page_number != 1
+        @post_data["form1:__link_clicked__"] = "form1:doPage"
+      end
       page = agent.post(url, @post_data)
-      count = page.css('body > form > div > center > table:nth-child(2) > tr').count
-      if count.eql? 1
+      tr_list = page.css('#form1 > span > div > div > table > tbody > tr')
+      if (tr_list[0] && tr_list[0].text).eql?(first)
         break
       end
-      trs += page.css('body > form > div > center > table:nth-child(2) > tr').slice(2..-1)
-      p "offset"
-      offset += 50
+      first = tr_list[0].text
+      trs += tr_list.select.with_index{|e, i| i % 2 == 0}
+      page_number += 1
+      sleep(1)
     end
     trs
   end
   
   def self.tr2array(tr)
     tds = tr.css('td')
-    p "invalid data #{tds}" if tds.length != 16
-    teachers = tds[6].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact
-    subject_url = tds[4].css('a').attribute('href').text
-    year, cource, code, term, subject_name, class_number, _, students_number, a, b, c, d, f, other, mean_score, _ = tds.map(&:text).map(&:strip)
-    return year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
+    p "invalid data #{tds}" if tds.length != 14
+    subject_url = tds[13].css('a').attribute('onclick').text.match(/http.*html/)[0]
+    teachers = tds[3].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
+    code, term, subject_name, _, students_number, a, b, c, d, f, other, mean_score, _, _ = tds.map(&:text).map(&:strip)
+    subject_name = ApplicationController.helpers.convert_to_en(subject_name)
+    return code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
   end
     
-  def self.update_tables(trs, faculty_id)
+  def self.update_tables(trs, faculty_id, year)
     before_count = Subject.count
     trs.each do |tr|
-      year, cource, code, term, subject_name, class_number, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url = tr2array(tr)
-      # p year, cource, code, term, subject_name, class_number, teachers, students_number, a, b, c, d, f, other, mean_score
-      subject = Subject.find_by(code: code)
-      subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id) if not subject
+      code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url = tr2array(tr)
+      subject = Subject.find_by(name: subject_name)
+      if not subject
+        if index=subject_name.index("(")
+          subjects = Subject.where("name like :search", search: "%#{subject_name.slice(0..(index+2))}%")
+          if subjects.length != 1
+            p "create #{subject_name}"
+            subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id)
+          else
+            subject = subjects[0]
+          end
+        else
+          subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id)
+        end
+      end
+      # if subject.code != code
+      #   subject.update(name: subject_name, code: code, faculty_id: faculty_id)
+      # end
       year_data = YearDatum.find_by(subject_id: subject.id, year: year)
       year_data = YearDatum.create(year: year, term: ApplicationController.helpers.term2int(term), url: subject_url, number_of_students: students_number,
                       A: a, B: b, C: c, D: d, F: f, other: other, mean_score: mean_score, subject_id: subject.id) if not year_data
@@ -114,7 +147,7 @@ class BatchUpdateSyllabus
       p faculty.name
       update_parameter(faculty, year)
       trs = retrieve_subjects_of faculty
-      retrieved = update_tables(trs, faculty.id)
+      retrieved = update_tables(trs, faculty.id, year)
       p "retrieved #{retrieved} data"
     end
     p "#{DateTime.now}, Finish BatchUpdateSyllabus"
