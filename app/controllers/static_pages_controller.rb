@@ -8,4 +8,7 @@ class StaticPagesController < ApplicationController
   
   def notice
   end
+  
+  def q_and_a
+  end
 end

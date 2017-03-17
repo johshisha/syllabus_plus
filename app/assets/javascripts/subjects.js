@@ -21,7 +21,6 @@ var is_pc = (function(){
   }
 })();
 
-var sort_index = "10"; // for datatables
 function initialize_datatalbes(){
   if (getDevice == "sp"){
     var thead = "<tr>"+
@@ -31,15 +30,12 @@ function initialize_datatalbes(){
     "<th>平均評点</th>" +
     "<th></th>" +
     "</tr>";
-    sort_index = "5";
     if ($(".msg-for-sp").find(".notice").length == 0){
       $(".msg-for-sp").append('<p class="notice">このサイトはPC推奨です</p>');
     }
   }else{
     var thead = "<tr class='thead-data'>"+
-    "<th></th>" +
     "<th>科目名</th>" +
-    "<th>科目コード</th>" +
     "<th>A</th>" +
     "<th>B</th>" +
     "<th>C</th>" +
@@ -52,40 +48,6 @@ function initialize_datatalbes(){
   if ($(".datatables-thead").find(".thead-data").length == 0){
     $(".datatables-thead").append(thead);
   }
-}
-
-
-function format ( d ) {
-  // `d` is the original data object for the row
-  html = '<table class="year_data" cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">';
-  html += 
-  '<thead>' +
-    '<tr>'+
-        '<th>年度</th>'+
-        '<th>受講者数</th>'+
-        '<th>A</th>'+
-        '<th>B</th>'+
-        '<th>C</th>'+
-        '<th>D</th>'+
-        '<th>F</th>'+
-        '<th>平均評点</th>'+
-    '</tr>'+
-  '</thead>';
-  for(var i=0,data;data=d.year_data[i];i++){
-    html +=
-    '<tr>'+
-        '<td><a target="_blank" href="'+data.url+'">'+data.year+'</a></td>'+
-        '<td>'+data.number_of_students+'</td>'+
-        '<td>'+data.A+'</td>'+
-        '<td>'+data.B+'</td>'+
-        '<td>'+data.C+'</td>'+
-        '<td>'+data.D+'</td>'+
-        '<td>'+data.F+'</td>'+
-        '<td>'+data.mean_score+'</td>'+
-    '</tr>';
-  }
-  html += '</table>';
-  return html;  
 }
 
 function load_table() {  
@@ -103,7 +65,7 @@ function load_table() {
       "serverSide": true,
       "responsive": true,
       "iDisplayLength": 50,
-      "order" : [["10", 'desc']],
+      "order" : [["8", 'desc']],
       "ajax": {
         "url": "faculties/list",
         "dataType": 'json',
@@ -115,20 +77,12 @@ function load_table() {
       },
       "columns": [
         {
-            "className":      'my-button',
-            "orderable":      false,
-            "data":           null,
-            "defaultContent": '',
-            "width": "5%",
-        },
-        {
           "data": "name",
           "render":function (data) {
             var link = data.split("===")
             return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
           }
         },
-        { "data": "code", "orderSequence": [ "desc", "asc"] },
         { "data": "A", "orderSequence": [ "desc", "asc"] },
         { "data": "B", "orderSequence": [ "desc", "asc"] },
         { "data": "C", "orderSequence": [ "desc", "asc"] },
@@ -188,21 +142,4 @@ function load_table() {
     });
     
   }
-  
-  // Add event listener for opening and closing details
-  $('#subjects tbody').on('click', 'td.my-button', function () {
-      var tr = $(this).closest('tr');
-      var row = table.row( tr );
-
-      if ( row.child.isShown() ) {
-          // This row is already open - close it
-          row.child.hide();
-          tr.removeClass('shown');
-      }
-      else {
-          // Open this row
-          row.child( format(row.data()), "detail-table" ).show();
-          tr.addClass('shown');
-      }
-  } );
 }
