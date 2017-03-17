@@ -27,7 +27,8 @@ module ApplicationHelper
     val = Moji.han_to_zen(val)
     val = convert_roman_to_alphabet(val)
     val = val.tr('\ー\－０-９ａ-ｚＡ-Ｚ（）　’”，．＆｜', '\-\-0-9a-zA-Z() \'\",.&')
-    val = val.gsub(' ', '')
+    val = val.gsub(' -', '-')
+    val = val.gsub('- ', '-')
   end
   
   def convert_roman_to_alphabet(val)
