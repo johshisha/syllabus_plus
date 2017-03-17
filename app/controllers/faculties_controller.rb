@@ -1,5 +1,6 @@
 class FacultiesController < ApplicationController
   def index
+    cookies.permanent.signed["uuid"] ||= SecureRandom.uuid
     @faculties = Faculty.all
   end
   

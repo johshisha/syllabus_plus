@@ -31,6 +31,12 @@ class StockSubjectsController < ApplicationController
       if week && period_array && subject_id
         schedules "add", [subject_id, [week, period_array]]
         ids "add", subject_id
+        uuid = cookies.signed["uuid"]
+        if log = StockedLog.find_by(uuid: uuid, subject_id: subject_id)
+          log.update(uuid: uuid, subject_id: subject_id, week: week, periods: period_array, deleted: false)
+        else
+          StockedLog.create(uuid: uuid, subject_id: subject_id, week: week, periods: period_array)
+        end
         format.js { @status = {"status": "success", "id": subject_id} }
       else
         format.js { @status = {"status": "fail"} }
@@ -44,7 +50,10 @@ class StockSubjectsController < ApplicationController
       if subject_id
         schedules "delete", subject_id
         ids "delete", subject_id
-        p subject_id
+        uuid = cookies.signed["uuid"]
+        if log = StockedLog.find_by(uuid: uuid, subject_id: subject_id)
+          log.update_attribute(:deleted, true)
+        end
         format.js { @status = {"status": "success", "id": subject_id} }
       else
         format.js { @status = {"status": "fail"} }
@@ -53,6 +62,8 @@ class StockSubjectsController < ApplicationController
   end
   
   def clear
+    uuid = cookies.signed["uuid"]
+    StockedLog.where(subject_id: ids("get")).update_all(deleted: true)
     cookies.delete "subject_schedules"
     cookies.delete "subjects"
     redirect_to stock_subjects_url
@@ -72,7 +83,7 @@ class StockSubjectsController < ApplicationController
     elsif method == 'get'
       return cookie_hash
     end
-    cookies["subject_schedules"] = JSON.dump cookie_hash.stringify_keys
+    cookies.permanent["subject_schedules"] = JSON.dump cookie_hash.stringify_keys
   end
   
   def ids(method, data=nil)
@@ -84,6 +95,6 @@ class StockSubjectsController < ApplicationController
     elsif method == 'get'
       return subject_ids
     end
-    cookies["subjects"] = subject_ids
+    cookies.permanent["subjects"] = subject_ids
   end
 end
