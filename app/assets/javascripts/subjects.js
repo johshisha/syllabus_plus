@@ -21,7 +21,6 @@ var is_pc = (function(){
   }
 })();
 
-var sort_index = "10"; // for datatables
 function initialize_datatalbes(){
   if (getDevice == "sp"){
     var thead = "<tr>"+
@@ -31,14 +30,12 @@ function initialize_datatalbes(){
     "<th>平均評点</th>" +
     "<th></th>" +
     "</tr>";
-    sort_index = "5";
     if ($(".msg-for-sp").find(".notice").length == 0){
       $(".msg-for-sp").append('<p class="notice">このサイトはPC推奨です</p>');
     }
   }else{
     var thead = "<tr class='thead-data'>"+
     "<th>科目名</th>" +
-    "<th>科目コード</th>" +
     "<th>A</th>" +
     "<th>B</th>" +
     "<th>C</th>" +
@@ -68,7 +65,7 @@ function load_table() {
       "serverSide": true,
       "responsive": true,
       "iDisplayLength": 50,
-      "order" : [["9", 'desc']],
+      "order" : [["8", 'desc']],
       "ajax": {
         "url": "faculties/list",
         "dataType": 'json',
@@ -86,7 +83,6 @@ function load_table() {
             return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
           }
         },
-        { "data": "code", "orderSequence": [ "desc", "asc"] },
         { "data": "A", "orderSequence": [ "desc", "asc"] },
         { "data": "B", "orderSequence": [ "desc", "asc"] },
         { "data": "C", "orderSequence": [ "desc", "asc"] },
