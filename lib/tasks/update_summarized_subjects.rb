@@ -132,9 +132,9 @@ class BatchUpdateSummarizedSubject
       teacher = Teacher.find_by(name: teachers[0])
       teacher_id = teacher ? teacher.id : Teacher.create(name: teachers[0]).id
       if summarized_subject = SummarizedSubject.find_by(subject_id: subject.id)
-        summarized_subject.update(name: subject.name, code: code, url: url, term: term, place: place, credit: credit, teacher_id: teacher_id, subject_id: subject.id, faculty_id: faculty_id, A: score.A, B: score.B, C: score.C, D: score.D, F: score.F, other: score.other, number_of_students: score.number_of_students, mean_score: score.mean_score, weighted_score: score.weighted_score)
+        summarized_subject.update(name: subject.name, code: code, url: url, term: term, place: place, credit: credit, teacher_id: teacher_id, teacher_name: teachers[0], subject_id: subject.id, faculty_id: faculty_id, A: score.A, B: score.B, C: score.C, D: score.D, F: score.F, other: score.other, number_of_students: score.number_of_students, mean_score: score.mean_score, weighted_score: score.weighted_score)
       else
-        SummarizedSubject.create(name: subject.name, code: code, url: url, term: term, place: place, credit: credit, teacher_id: teacher_id, subject_id: subject.id, faculty_id: faculty_id, A: score.A, B: score.B, C: score.C, D: score.D, F: score.F, other: score.other, number_of_students: score.number_of_students, mean_score: score.mean_score, weighted_score: score.weighted_score)
+        SummarizedSubject.create(name: subject.name, code: code, url: url, term: term, place: place, credit: credit, teacher_id: teacher_id, teacher_name: teachers[0], subject_id: subject.id, faculty_id: faculty_id, A: score.A, B: score.B, C: score.C, D: score.D, F: score.F, other: score.other, number_of_students: score.number_of_students, mean_score: score.mean_score, weighted_score: score.weighted_score)
       end
     end
     after_count = SummarizedSubject.count

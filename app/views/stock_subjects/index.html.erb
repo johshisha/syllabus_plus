@@ -12,7 +12,7 @@
 <script>
   <% @schedules.each do |k,v| %>
     <% id, week, periods = k, v[0], v[1] %>
-    <% subject = @subjects.find(id) %>
+    <% subject = @subjects.find_by(subject_id: id) %>
     <% periods.each do |period| %>
       var class_id = "schedule-data-<%= id %>";
       var subject_name = '●<%= subject.name %>';

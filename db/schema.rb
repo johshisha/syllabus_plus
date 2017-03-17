@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170307193837) do
+ActiveRecord::Schema.define(version: 20170317140159) do
 
   create_table "faculties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",          null: false
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20170307193837) do
     t.integer "place"
     t.integer "credit"
     t.integer "teacher_id"
+    t.string  "teacher_name"
     t.index ["A"], name: "index_summarized_subjects_on_A", using: :btree
     t.index ["B"], name: "index_summarized_subjects_on_B", using: :btree
     t.index ["C"], name: "index_summarized_subjects_on_C", using: :btree

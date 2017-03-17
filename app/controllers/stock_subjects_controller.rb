@@ -5,15 +5,15 @@ class StockSubjectsController < ApplicationController
     @periods = periods
     @schedules = schedules "get"
     subject_ids = ids "get"
-    @subjects = SummarizedSubject.where(id: subject_ids)
+    @subjects = SummarizedSubject.where(subject_id: subject_ids)
   end
   
   def show
     weeks, periods = get_week_and_periods
     @weeks = weeks
     @periods = periods
-    @subject = SummarizedSubject.find(params[:id])
-    @present = ids("get").include?(@subject.id.to_s)
+    @subject = SummarizedSubject.find_by(subject_id: params[:id])
+    @present = ids("get").include?(@subject.subject_id.to_s)
   end
 
   def new

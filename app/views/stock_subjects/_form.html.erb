@@ -10,7 +10,7 @@
       <% end %>
     <% else %>
       <%= form_tag stock_subjects_path, remote: true, class: "modal-form" do %>
-        <%= hidden_field_tag(:subject_id, @subject.id) %>
+        <%= hidden_field_tag(:subject_id, @subject.subject_id) %>
         <table class="modal-table">
           <tr>
             <th><%= label_tag(:week, "曜日") %></th>
