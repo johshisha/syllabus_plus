@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317174452) do
+ActiveRecord::Schema.define(version: 20170317184632) do
 
   create_table "faculties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",          null: false
@@ -21,12 +21,13 @@ ActiveRecord::Schema.define(version: 20170317174452) do
   end
 
   create_table "stocked_logs", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "uuid",       null: false
+    t.string   "uuid",                       null: false
     t.integer  "subject_id"
-    t.integer  "week",       null: false
-    t.string   "periods",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "week",                       null: false
+    t.string   "periods",                    null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+    t.boolean  "deleted",    default: false
     t.index ["periods"], name: "index_stocked_logs_on_periods", using: :btree
     t.index ["subject_id"], name: "index_stocked_logs_on_subject_id", using: :btree
     t.index ["uuid"], name: "index_stocked_logs_on_uuid", using: :btree
