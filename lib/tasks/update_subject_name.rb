@@ -36,4 +36,15 @@ teachers = Teacher.all
 do_convert_data(teachers)
 ''
 
+teachers = Teacher.where("name like '%  %'")
+teachers.length
+
+teachers[0]
+
+teachers.each do |teacher|
+  name = teacher.name.gsub(/ +/, ' ')
+  teacher.update_attribute(:name, name)
+end
+''
+
 

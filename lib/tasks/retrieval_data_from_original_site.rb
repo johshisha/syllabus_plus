@@ -99,7 +99,7 @@ class BatchUpdateSyllabus
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 14
     subject_url = tds[13].css('a').attribute('onclick').text.match(/http.*html/)[0]
-    teachers = tds[3].children.map {|x| x.text.gsub("   ", "") if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
+    teachers = tds[3].children.map {|x| x.text.gsub(/ +/, ' ') if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
     code, term, subject_name, _, students_number, a, b, c, d, f, other, mean_score, _, _ = tds.map(&:text).map(&:strip)
     subject_name = ApplicationController.helpers.convert_to_en(subject_name)
     return code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url

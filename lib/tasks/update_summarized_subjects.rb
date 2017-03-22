@@ -107,7 +107,7 @@ class BatchUpdateSummarizedSubject
     end
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 7
-    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0|   )+/, "").strip if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
+    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0)+/, "").gsub(/ +/, ' ').strip if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
     url = tds[2].css('a').attr('href').text.gsub('../', 'https://syllabus.doshisha.ac.jp/')
     name, term = get_name_term(tds[2].css('a'))
     name = ApplicationController.helpers.convert_to_en name
