@@ -1,0 +1,97 @@
+<h1><%= @summarized_subject.name %></h1>
+
+<p><%= link_to "シラバスを見る", @summarized_subject.url, target: :_blank %></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>
+
+<p>
+<canvas id="myChart" width="300" height="200">お使いのブラウザはcanvasに対応していません。</canvas>
+</p>
+
+<script>
+  <% year_data = @summarized_subject.year_data %>
+  var ctx = document.getElementById("myChart");
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: <%= year_data.pluck(:year) %>,
+          datasets: [{
+              label: "A",
+              borderWidth:1,
+              backgroundColor: "#121554",
+              borderColor: "#121554",
+              data: <%= year_data.pluck(:A).map(&:to_f) %>
+          },
+           {
+              label: "B",
+              borderWidth:1,
+              backgroundColor: "#1d3681",
+              borderColor: "#1d3681",
+              data: <%= year_data.pluck(:B).map(&:to_f) %>
+          },{
+              label: "C",
+              borderWidth:1,
+              backgroundColor: "#2e70a7",
+              borderColor: "#2e70a7",
+              data: <%= year_data.pluck(:C).map(&:to_f) %>
+          },{
+              label: "D",
+              borderWidth:1,
+              backgroundColor: "#4eadc7",
+              borderColor: "#4eadc7",
+              data: <%= year_data.pluck(:D).map(&:to_f) %>
+          },{
+              label: "F",
+              borderWidth:1,
+              backgroundColor: "#CB8584",
+              borderColor: "#CB8584",
+              data: <%= year_data.pluck(:F).map(&:to_f) %>
+          },{
+              label: "other",
+              borderWidth:1,
+              backgroundColor: "#7E8080",
+              borderColor: "#7E8080",
+              data: <%= year_data.pluck(:other).map(&:to_f) %>
+          }]
+
+      },
+      options: {
+          title: {
+              display: true,
+              text: '<%= @summarized_subject.name %>の成績評価傾向', //グラフの見出し
+              padding: 5
+          },
+          scales: {
+              xAxes: [{
+                    stacked: true, //積み上げ棒グラフにする設定
+                    categoryPercentage:0.4 //棒グラフの太さ
+              }],
+              yAxes: [{
+                    stacked: true, //積み上げ棒グラフにする設定
+                    ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 25
+                    }
+              }]
+          },
+          responsive: true,
+          legend: {
+              labels: {
+                    boxWidth:30,
+                    padding:20 //凡例の各要素間の距離
+              },
+              display: true
+          },
+          tooltips:{
+            // enabled: false
+            enabled: true,
+            callbacks: {
+                label: function(tooltipItem, data) {
+                   return data.datasets[tooltipItem.datasetIndex].label;
+                }
+            }
+          }
+      }
+  });
+</script>

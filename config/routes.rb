@@ -17,4 +17,6 @@ Rails.application.routes.draw do
       get :list
     end
   end
+  
+  resources :summarized_subjects, only: [:show]
 end
