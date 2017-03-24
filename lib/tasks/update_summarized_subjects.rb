@@ -9,33 +9,6 @@ require "#{Rails.root}/app/models/summarized_subject"
 class BatchUpdateSummarizedSubject
   attr_accessor :post_data
   
-  def self.retrieve_faculties
-    agent = Mechanize.new
-    url = "https://syllabus.doshisha.ac.jp/"
-    page = agent.get(url)
-    page.css('body > table:nth-child(4) > tbody > tr > td > form > table:nth-child(7) > tbody > tr:nth-child(5) > td > select > option').each do |opt|
-      name = opt.text.split('/')[0].strip
-      if name == '全学共通教養教育科目（外国語教育科目）'
-        name = "語学科目"
-      elsif name == "全学共通教養教育科目（保健体育科目）"
-        name = "保健体育科目"
-      elsif name == "全学共通教養教育科目（外国語教育科目・保健体育科目以外）"
-        name = "全学共通教養教育科目"
-      elsif name == "グローバル教育プログラム科目"
-        name = "留学生科目"
-      elsif name == "グローバル・コミュニケーション学部"
-        name = name
-      else
-        name = name.split(/[・|･]/)[0].strip
-      end
-      p "(code: #{opt.attribute('value').text}, name: #{name})" if opt.has_attribute?('value')
-      faculty = Faculty.find_by(name: name)
-      if faculty != nil
-        faculty.update(name: faculty.name, code: faculty.code, syllabus_code: opt.attribute('value').text)
-      end
-    end
-  end
-  
   def self.set_post_data
     # example data of 神学部2016
     example = "clicknumber=1&connection=AND&select_bussinessyear=2016&courseid=1&subjectcd=1&subjectcd2=&keyword=&maxdisplaynumber=1000&furiwakeid=&gakuseiid=&key=&gakuseiidflg=0&kohyoflg=&kamokucode="
@@ -86,9 +59,12 @@ class BatchUpdateSummarizedSubject
   
   def self.tr2array(tr)
     def self.get_code(data)
-      code = data.gsub(/(\xc2\xa0|\s|-)+/,'').strip
+      code = data.gsub(/(\xc2\xa0|\s)+/,'').strip
       loop do
         break if code.length == 11
+        if code.length == 7
+          code += '-'
+        end
         code += '0'
       end
       code
@@ -111,7 +87,7 @@ class BatchUpdateSummarizedSubject
     end
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 7
-    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0)+/, "").gsub(/ +/, ' ').strip if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
+    teachers = tds[3].children.map {|x| x.text.gsub(/(\xc2\xa0)+/, "").gsub('𠮷','吉') if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en(name).gsub(/ +/, ' ').strip}
     url = tds[2].css('a').attr('href').text.gsub('../', 'https://syllabus.doshisha.ac.jp/')
     name, term = get_name_term(tds[2].css('a'))
     name = ApplicationController.helpers.convert_to_en name
@@ -133,8 +109,12 @@ class BatchUpdateSummarizedSubject
       end
       
       score = subject.subject_score || SubjectScore.new(A: 0, B: 0, C: 0, D: 0, F: 0, mean_score: 0, other: 0)
-      teacher = Teacher.find_by(name: teachers[0])
-      teacher_id = teacher ? teacher.id : Teacher.create(name: teachers[0]).id
+      begin
+        teacher = Teacher.find_by(name: teachers[0]) || Teacher.create(name: teachers[0])
+        teacher_id = teacher ? teacher.id : nil
+      rescue
+        binding.pry
+      end
       if summarized_subject = SummarizedSubject.find_by(subject_id: subject.id)
         summarized_subject.update(name: subject.name, code: code, url: url, term: term, place: place, credit: credit, teacher_id: teacher_id, teacher_name: teachers[0], subject_id: subject.id, faculty_id: faculty_id, A: score.A, B: score.B, C: score.C, D: score.D, F: score.F, other: score.other, number_of_students: score.number_of_students, mean_score: score.mean_score, weighted_score: score.weighted_score)
       else
@@ -147,12 +127,12 @@ class BatchUpdateSummarizedSubject
   
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSummarizedSubject"
-    retrieve_faculties # retrieval faculty code in syllabus
     faculties = Faculty.all
     faculties.each do |faculty|
       update_parameter(faculty, year)
       trs = retrieve_subjects_of faculty
       if trs.length > 0
+        p "id #{faculty.id}"
         SummarizedSubject.delete_all(faculty_id: faculty.id) #reset at once
         updated = update_tables(trs, faculty.id)
         p "updated #{updated} subjects in #{faculty.name}"

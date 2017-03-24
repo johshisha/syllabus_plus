@@ -13,30 +13,6 @@ require "#{Rails.root}/app/models/faculty"
 class BatchUpdateSyllabus
   attr_accessor :post_data
   
-  def self.retrieve_faculties
-    agent = Mechanize.new
-    url = 'https://duet.doshisha.ac.jp/kokai/html/fi/fi020/FI02001G.html'
-    page = agent.get(url)
-    table = page.css('#form1 > div > div > table')
-    table.css('tr')[1].css('td')[1].css('select > option').each do |opt|
-      name =  opt.text
-      if name == '全学共通教養教育科目（外国語教育科目）'
-        name = "語学科目"
-      elsif name == "全学共通教養教育科目（保健体育科目）"
-        name = "保健体育科目"
-      elsif name == "全学共通教養教育科目（外国語教育科目・保健体育科目以外）"
-        name = "全学共通教養教育科目"
-      elsif name == "日本語・日本文化教育科目"
-        name = "留学生科目"
-      end
-      p "#{name}: #{opt.attr('value')}"
-      faculty = Faculty.find_by(name: name)
-      if faculty != nil
-        faculty.update(name: faculty.name, code: opt.attr("value"), syllabus_code: faculty.syllabus_code)
-      end
-    end
-  end
-  
   def self.set_post_data
     #  神学部2016
     example = "form1%3AselectedIndex=0&form1%3AselectedPage=1&form1%3AtopPosition=0&form1%3AkaikoNendolist=2016&form1%3A_id78=&form1%3A_id82=1&form1%3A_id86=11001&form1%3A_id90=&form1%3A_id92=&form1%3A_id104=&form1%3A_id116=&form1%2Fhtml%2Ffi%2Ffi020%2FFI02001G.html=form1&form1%3A__link_clicked__=form1%3AdoKensaku"
@@ -99,9 +75,10 @@ class BatchUpdateSyllabus
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 14
     subject_url = tds[13].css('a').attribute('onclick').text.match(/http.*html/)[0]
-    teachers = tds[3].children.map {|x| x.text.gsub(/ +/, ' ') if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en name}
+    teachers = tds[3].children.map {|x| x.text.gsub('𠮷','吉')  if x.text != ""}.compact.map(&:strip).map {|name| ApplicationController.helpers.convert_to_en(name).gsub(/ +/, ' ')}
     code, term, subject_name, _, students_number, a, b, c, d, f, other, mean_score, _, _ = tds.map(&:text).map(&:strip)
     subject_name = ApplicationController.helpers.convert_to_en(subject_name)
+    code = code.slice(1..-1)
     return code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
   end
     
@@ -109,29 +86,12 @@ class BatchUpdateSyllabus
     before_count = Subject.count
     trs.each do |tr|
       code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url = tr2array(tr)
-      subject = Subject.find_by(name: subject_name)
-      if not subject
-        if index=subject_name.index("(")
-          subjects = Subject.where("name like :search", search: "%#{subject_name.slice(0..(index+2))}%")
-          if subjects.length != 1
-            p "create #{subject_name}"
-            subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id)
-          else
-            subject = subjects[0]
-          end
-        else
-          subject = Subject.create(name: subject_name, code: code, faculty_id: faculty_id)
-        end
-      end
-      # if subject.code != code
-      #   subject.update(name: subject_name, code: code, faculty_id: faculty_id)
-      # end
-      year_data = YearDatum.find_by(subject_id: subject.id, year: year)
-      year_data = YearDatum.create(year: year, term: ApplicationController.helpers.term2int(term), url: subject_url, number_of_students: students_number,
-                      A: a, B: b, C: c, D: d, F: f, other: other, mean_score: mean_score, subject_id: subject.id) if not year_data
+      subject = Subject.find_by(code: code) || Subject.create(name: subject_name, code: code, faculty_id: faculty_id)
+      year_data = YearDatum.find_by(subject_id: subject.id, year: year) || \
+                  YearDatum.create(year: year, term: ApplicationController.helpers.term2int(term), url: subject_url, number_of_students: students_number,
+                      A: a, B: b, C: c, D: d, F: f, other: other, mean_score: mean_score, subject_id: subject.id)
       teachers.each do |teacher|
-        t = Teacher.find_by(name: teacher)
-        t = Teacher.create(name:teacher) if not t
+        t = Teacher.find_by(name: teacher) || Teacher.create(name:teacher)
         SubjectRelationship.create(year_datum_id: year_data.id, teacher_id: t.id)
       end
     end
@@ -141,7 +101,6 @@ class BatchUpdateSyllabus
   
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSyllabus (retrieval year: #{year})"
-    retrieve_faculties
     faculies = Faculty.all
     faculies.each do |faculty|
       p faculty.name
