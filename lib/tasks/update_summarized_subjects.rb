@@ -88,7 +88,7 @@ class BatchUpdateSummarizedSubject
     def self.get_code(data)
       code = data.gsub(/(\xc2\xa0|\s|-)+/,'').strip
       loop do
-        break if code.length == 10
+        break if code.length == 11
         code += '0'
       end
       code
