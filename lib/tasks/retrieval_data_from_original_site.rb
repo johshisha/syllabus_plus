@@ -20,13 +20,13 @@ class BatchUpdateSyllabus
     table = page.css('#form1 > div > div > table')
     table.css('tr')[1].css('td')[1].css('select > option').each do |opt|
       name =  opt.text
-      if name == '全学共通教養教育科目(外国語教育科目)'
+      if name == '全学共通教養教育科目（外国語教育科目）'
         name = "語学科目"
-      elsif name == "全学共通教養教育科目(保健体育科目)"
+      elsif name == "全学共通教養教育科目（保健体育科目）"
         name = "保健体育科目"
-      elsif name == "全学共通教養教育科目(外国語教育科目・保健体育科目以外)"
+      elsif name == "全学共通教養教育科目（外国語教育科目・保健体育科目以外）"
         name = "全学共通教養教育科目"
-      elsif name == "グローバル教育プログラム科目"
+      elsif name == "日本語・日本文化教育科目"
         name = "留学生科目"
       end
       p "#{name}: #{opt.attr('value')}"
