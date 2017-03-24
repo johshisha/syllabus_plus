@@ -6,6 +6,13 @@ class StockSubjectsController < ApplicationController
     @schedules = schedules "get"
     subject_ids = ids "get"
     @subjects = SummarizedSubject.where(subject_id: subject_ids)
+    # 長さが違う場合は何らかのバグなので，めんどくさいからリセットする
+    if @schedules.length != @subjects.length
+      cookies.delete "subject_schedules"
+      cookies.delete "subjects"
+      @schedules = {}
+      @subjects = SummarizedSubject.none
+    end
   end
   
   def show
