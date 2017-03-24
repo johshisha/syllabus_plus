@@ -13,16 +13,20 @@ class BatchUpdateSummarizedSubject
     agent = Mechanize.new
     url = "https://syllabus.doshisha.ac.jp/"
     page = agent.get(url)
-    page.css('body > table:nth-child(4) > tbody > tr > td > form > table:nth-child(7) > tbody > tr:nth-child(3) > td > select > option').each do |opt|
+    page.css('body > table:nth-child(4) > tbody > tr > td > form > table:nth-child(7) > tbody > tr:nth-child(5) > td > select > option').each do |opt|
       name = opt.text.split('/')[0].strip
-      if name == '全学共通教養教育科目(外国語教育科目)'
+      if name == '全学共通教養教育科目（外国語教育科目）'
         name = "語学科目"
-      elsif name == "全学共通教養教育科目(保健体育科目)"
+      elsif name == "全学共通教養教育科目（保健体育科目）"
         name = "保健体育科目"
-      elsif name == "全学共通教養教育科目(外国語教育科目・保健体育科目以外)"
+      elsif name == "全学共通教養教育科目（外国語教育科目・保健体育科目以外）"
         name = "全学共通教養教育科目"
       elsif name == "グローバル教育プログラム科目"
         name = "留学生科目"
+      elsif name == "グローバル・コミュニケーション学部"
+        name = name
+      else
+        name = name.split(/[・|･]/)[0].strip
       end
       p "(code: #{opt.attribute('value').text}, name: #{name})" if opt.has_attribute?('value')
       faculty = Faculty.find_by(name: name)
