@@ -38,7 +38,7 @@ class BatchUpdateSummarizedSubject
   
   def self.set_post_data
     # example data of 神学部2016
-    example = "clicknumber=1&connection=AND&select_bussinessyear=2016&courseid=&subjectcd=1&subjectcd2=&keyword=&maxdisplaynumber=1000&furiwakeid=&gakuseiid=&key=&gakuseiidflg=0&kohyoflg=&kamokucode="
+    example = "clicknumber=1&connection=AND&select_bussinessyear=2016&courseid=1&subjectcd=1&subjectcd2=&keyword=&maxdisplaynumber=1000&furiwakeid=&gakuseiid=&key=&gakuseiidflg=0&kohyoflg=&kamokucode="
     post_data = {}
     example.split("&").each do |line|
       l =  line.split('=')
