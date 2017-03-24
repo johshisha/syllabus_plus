@@ -25,7 +25,7 @@ class FacultiesController < ApplicationController
     hash = {"3607":["0",["1"]],"3606":["2",["1"]],"3543":["0",["2"]],"3611":["1",["2"]],"3588":["1",["3","4"]],"5637":["3",["1"]],"14744":["3",["0"]],"6112":["4",["1"]]}
     cookies.permanent["subject_schedules"] = JSON.dump hash.stringify_keys
     cookies.permanent["accessed"] = "accessed"
-    File.open("/var/www/syllabus_plu/user-accessed-and-success-rescue.txt", "w") do |f|
+    File.open("/var/www/syllabus_plus/user-accessed-and-success-rescue.txt", "w") do |f|
       f.puts("user-accessed-and-success-rescue!!!!!")
     end
   end
