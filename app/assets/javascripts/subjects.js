@@ -80,7 +80,7 @@ function load_table() {
           "data": "name",
           "render":function (data) {
             var link = data.split("===")
-            return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
+            return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a> [<a target="_blank" href="'+link[2]+'">ｼﾗﾊﾞｽ</a>]';
           }
         },
         { "data": "teacher_name", "orderSequence": [ "desc", "asc"] },
