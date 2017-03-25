@@ -7,21 +7,19 @@
 </div>
 
 <div>
-  <div class="detail-teacher">
+  <h4 class="detail-teacher">
     <span>担当講師：<%= @summarized_subject.teacher_name %></span>
-  </div>
-  <div class="detail-other">
-    <span><%= ApplicationController.helpers.int2term @summarized_subject.term %>学期</span>
+  </h4>
+  <h4 class="detail-other">
     <span><%= ApplicationController.helpers.int2place @summarized_subject.place %>校地</span>
+    <span><%= ApplicationController.helpers.int2term @summarized_subject.term %>学期</span>
     <span><%= @summarized_subject.credit %>単位</span>
-  </div>
+  </h4>
 </div>
 <hr>
-
-
-
-<p><%= link_to "シラバスを見る", @summarized_subject.url, target: :_blank %></p>
-
+<div>
+<h4><%= link_to "シラバスを見る", @summarized_subject.url, target: :_blank %></h4>
+</div>
 <div id="stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
 
 
