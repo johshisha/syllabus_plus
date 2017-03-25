@@ -25,9 +25,19 @@
       schedule_table_add(class_id, subject_name, <%= week %>, <%= period %>, <%= subject.term %>);
     <% end %>
   <% end %>
-  
-  $(function(){
+
+  function update_credit(){
+    function calc_term_credit(term){
+      sum = 0;
+      $("."+term+"-term").find('.credit-td').each(function() {
+        sum += Number($(this).text());
+      });
+      $("."+term+"-credit-value").text(sum);
+    }
+    calc_term_credit("spring");
+    calc_term_credit("autumn");
     $(".sum-credit-value").text(Number($(".spring-credit-value").text()) + Number($(".autumn-credit-value").text()));
-  });
+  }
+  update_credit();
 // -->
 </script>

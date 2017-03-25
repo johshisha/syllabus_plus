@@ -3,6 +3,7 @@ var url = window.location.href;
 if (url == "<%= stock_subjects_url %>"){
   $('<%= ".table-data-#{@status[:id]}" %>').remove();
   $('<%= ".schedule-data-#{@status[:id]}" %>').remove();
+  update_credit();
 }else{
   $("#stock-modal").modal("hide");
   $('<%= ".stock-button-#{@status[:id]}" %>').text("stock");
