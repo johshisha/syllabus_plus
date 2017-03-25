@@ -1,8 +1,24 @@
-<h1>
-  <%= @summarized_subject.name %>
-  <span class="stock-button">
-  </span>
-</h1>
+<div class="title">
+  <h1>
+    <%= @summarized_subject.name %>
+    <span class="stock-button">
+    </span>
+  </h1>
+</div>
+
+<div>
+  <div class="detail-teacher">
+    <span>担当講師：<%= @summarized_subject.teacher_name %></span>
+  </div>
+  <div class="detail-other">
+    <span><%= ApplicationController.helpers.int2term @summarized_subject.term %>学期</span>
+    <span><%= ApplicationController.helpers.int2place @summarized_subject.place %>校地</span>
+    <span><%= @summarized_subject.credit %>単位</span>
+  </div>
+</div>
+<hr>
+
+
 
 <p><%= link_to "シラバスを見る", @summarized_subject.url, target: :_blank %></p>
 
