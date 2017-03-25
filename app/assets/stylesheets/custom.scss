@@ -154,6 +154,13 @@ tr.shown td.my-button {
   .delete-stock-button {
     margin: 5px;
   }
+  .credit-td {
+    display: none;
+  }
+}
+
+.sum-credit {
+  padding: 10px;
 }
 
 .delete-all-stock {

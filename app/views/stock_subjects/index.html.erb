@@ -4,12 +4,18 @@
 <%= render partial: 'term-info', locals: {weeks: @weeks, periods: @periods, term: 0, subjects: spring_subjects} %>
 <%= render partial: 'term-info', locals: {weeks: @weeks, periods: @periods, term: 1, subjects: autumn_subjects} %>
 
+
+<div class="sum-credit">
+  <h4>単位合計：<span class="sum-credit-value"></span>単位<small>（必ずご自分でご確認ください）</small></h4>
+</div>
 <div class="delete-all-stock">
   <%= link_to 'すべて削除する', clear_stock_subjects_path, method: :delete, class: "btn btn-default", data: { confirm: '本当によろしいですか？'} %>
 </div>
 
-<!-- 時間割に科目を追加する  -->
+
 <script>
+<!-- 時間割に科目を追加する  -->
+<!--
   <% @schedules.each do |k,v| %>
     <% id, week, periods = k, v[0], v[1] %>
     <% subject = @subjects.find_by(subject_id: id) %>
@@ -19,4 +25,9 @@
       schedule_table_add(class_id, subject_name, <%= week %>, <%= period %>, <%= subject.term %>);
     <% end %>
   <% end %>
+  
+  $(function(){
+    $(".sum-credit-value").text(Number($(".spring-credit-value").text()) + Number($(".autumn-credit-value").text()));
+  });
+// -->
 </script>

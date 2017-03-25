@@ -51,7 +51,23 @@
             <%= submit_tag "削除", class: "btn delete-stock-button" %>
           <% end %>
         </td>
+        <td class="credit-td"><%= summarized_subject.credit %></td>
       </tr>
     <% end %>
   </table>
 </div>
+<div class="<%= term_name[term] %>-credit">
+  <p>単位小計：<span class="<%= term_name[term] %>-credit-value"></span>単位</p>
+</div>
+
+<script>
+<!--
+$(function(){
+  sum = 0;
+  $(".<%= term_name[term] %>-term").find('.credit-td').each(function() {
+    sum += Number($(this).text());
+  });
+  $(".<%= term_name[term] %>-credit-value").text(sum);
+});
+// -->
+</script>
