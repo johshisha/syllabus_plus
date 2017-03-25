@@ -33,7 +33,8 @@
       <th class="score">C</th>
       <th class="score">D</th>
       <th class="score">F</th>
-      <th class="score">平均評点</th>
+      <th class="mean-score">平均評点</th>
+      <th class="credit">単位</th>
       <th>削除</th>
     </tr>
     <% subjects.each do |summarized_subject| %>
@@ -46,12 +47,17 @@
         <td class="score"><%= summarized_subject.D.round(1) %></td>
         <td class="score"><%= summarized_subject.F.round(1) %></td>
         <td class="score"><%= summarized_subject.mean_score.round(1) %></td>
+        <td class="credit"><%= summarized_subject.credit %></td>
         <td class="delete-stock">
           <%= form_tag "/stock_subjects/#{summarized_subject.subject_id}", method: "delete", remote: true do %>
             <%= submit_tag "削除", class: "btn delete-stock-button" %>
           <% end %>
         </td>
+        <td class="credit-td"><%= summarized_subject.credit %></td>
       </tr>
     <% end %>
   </table>
+</div>
+<div class="<%= term_name[term] %>-credit">
+  <p>単位小計：<span class="<%= term_name[term] %>-credit-value"></span>単位</p>
 </div>

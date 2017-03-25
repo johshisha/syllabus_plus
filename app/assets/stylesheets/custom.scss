@@ -142,18 +142,33 @@ tr.shown td.my-button {
     text-align: center;
   }
   .subject_name {
-    width: 200px;
+    width: 150px;
   }
   .subject_name-data {
     text-align: left;;
   }
   .score {
     text-align: center;
+    width: 50px;
+  }
+  .mean-score {
+    text-align: center;
+    width: 60px;
+  }
+  .credit {
+    text-align: center;
     width: 60px;
   }
   .delete-stock-button {
     margin: 5px;
   }
+  .credit-td {
+    display: none;
+  }
+}
+
+.sum-credit {
+  padding: 10px;
 }
 
 .delete-all-stock {
