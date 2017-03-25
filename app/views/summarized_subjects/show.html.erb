@@ -40,6 +40,7 @@
   
   <% year_data = @summarized_subject.year_data %>
   var ctx = document.getElementById("myChart");
+  var num_of_students = <%= year_data.pluck(:number_of_students).map(&:to_i) %>;
   var myChart = new Chart(ctx, {
       type: 'bar',
       data: {
@@ -116,9 +117,12 @@
             // enabled: false
             enabled: true,
             callbacks: {
-                label: function(tooltipItem, data) {
-                   return data.datasets[tooltipItem.datasetIndex].label;
-                }
+              label: function(tooltipItem, data) {
+                return data.datasets[tooltipItem.datasetIndex].label;
+              },
+              afterLabel: function(tooltipItem, data) {
+                return "受講者数："+num_of_students[tooltipItem.index];
+              }
             }
           }
       }
