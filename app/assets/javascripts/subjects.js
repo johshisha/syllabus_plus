@@ -81,9 +81,10 @@ function load_table() {
           "render":function (data) {
             var link = data.split("===")
             return '<a target="_blank" href="'+link[1]+'">'+link[0]+'</a>';
-          }
+          },
+          "width": "25%"
         },
-        { "data": "teacher_name", "orderSequence": [ "desc", "asc"] },
+        { "data": "teacher_name", "orderSequence": [ "desc", "asc"], "width": "15%" },
         { "data": "A", "orderSequence": [ "desc", "asc"] },
         { "data": "B", "orderSequence": [ "desc", "asc"] },
         { "data": "C", "orderSequence": [ "desc", "asc"] },
