@@ -1,0 +1,128 @@
+<div class="title">
+  <h1>
+    <%= @summarized_subject.name %>
+    <span class="stock-button">
+    </span>
+  </h1>
+</div>
+
+<div>
+  <h4 class="detail-teacher">
+    <span>担当講師：<%= @summarized_subject.teacher_name %></span>
+  </h4>
+  <h4 class="detail-other">
+    <span><%= ApplicationController.helpers.int2place @summarized_subject.place %>校地</span>
+    <span><%= ApplicationController.helpers.int2term @summarized_subject.term %>学期</span>
+    <span><%= @summarized_subject.credit %>単位</span>
+  </h4>
+</div>
+<hr>
+<div>
+<h4><%= link_to "シラバスを見る", @summarized_subject.url, target: :_blank %></h4>
+</div>
+<div id="stock-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true"></div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.js"></script>
+
+<div class="canvas">
+<canvas id="myChart" width="300" height="200">お使いのブラウザはcanvasに対応していません。</canvas>
+</div>
+
+<script>
+  if ($(".stock-button").find(".btn").length == 0){
+    $('.stock-button').append(
+      render_table_td('<%= @summarized_subject.subject_id %>')
+    );
+  }
+  
+  <% year_data = @summarized_subject.year_data %>
+  var ctx = document.getElementById("myChart");
+  var num_of_students = <%= year_data.pluck(:number_of_students).map(&:to_i) %>;
+  var myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: <%= year_data.pluck(:year) %>,
+          datasets: [{
+              label: "A",
+              borderWidth:1,
+              backgroundColor: "#121554",
+              borderColor: "#121554",
+              data: <%= year_data.pluck(:A).map(&:to_f) %>
+          },
+           {
+              label: "B",
+              borderWidth:1,
+              backgroundColor: "#1d3681",
+              borderColor: "#1d3681",
+              data: <%= year_data.pluck(:B).map(&:to_f) %>
+          },{
+              label: "C",
+              borderWidth:1,
+              backgroundColor: "#2e70a7",
+              borderColor: "#2e70a7",
+              data: <%= year_data.pluck(:C).map(&:to_f) %>
+          },{
+              label: "D",
+              borderWidth:1,
+              backgroundColor: "#4eadc7",
+              borderColor: "#4eadc7",
+              data: <%= year_data.pluck(:D).map(&:to_f) %>
+          },{
+              label: "F",
+              borderWidth:1,
+              backgroundColor: "#CB8584",
+              borderColor: "#CB8584",
+              data: <%= year_data.pluck(:F).map(&:to_f) %>
+          },{
+              label: "other",
+              borderWidth:1,
+              backgroundColor: "#7E8080",
+              borderColor: "#7E8080",
+              data: <%= year_data.pluck(:other).map(&:to_f) %>
+          }]
+
+      },
+      options: {
+          title: {
+              display: true,
+              text: '<%= @summarized_subject.name %>の成績評価傾向', //グラフの見出し
+              padding: 5
+          },
+          scales: {
+              xAxes: [{
+                    stacked: true, //積み上げ棒グラフにする設定
+                    categoryPercentage:0.4 //棒グラフの太さ
+              }],
+              yAxes: [{
+                    stacked: true, //積み上げ棒グラフにする設定
+                    ticks: {
+                        max: 100,
+                        min: 0,
+                        stepSize: 25
+                    }
+              }]
+          },
+          responsive: true,
+          legend: {
+              labels: {
+                    boxWidth:30,
+                    padding:20 //凡例の各要素間の距離
+              },
+              display: true
+          },
+          tooltips:{
+            // enabled: false
+            enabled: true,
+            callbacks: {
+              label: function(tooltipItem, data) {
+                return data.datasets[tooltipItem.datasetIndex].label;
+              },
+              afterLabel: function(tooltipItem, data) {
+                return "受講者数："+num_of_students[tooltipItem.index];
+              }
+            }
+          }
+      }
+  });
+</script>

@@ -22,10 +22,11 @@ private
 
   def data
     ret = []
+    routes = Rails.application.routes.url_helpers
     subjects.each_with_index do |subject, i|
       ret.push({
         subject_id: subject.subject_id,
-        name: subject.name + "===" + subject.url,
+        name: subject.name + "===" + routes.summarized_subject_path(subject) + "===" + subject.url,
         url: subject.url,
         code: subject.code,
         teacher_name: subject.teacher_name ? subject.teacher_name : "　",
