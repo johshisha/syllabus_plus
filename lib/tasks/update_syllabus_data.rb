@@ -41,10 +41,10 @@ class BatchUpdateSyllabusData
     ["テキスト", "参考文献"].each do |cat|
       if table_hash[cat].present?
         table_hash[cat].css('tbody > tr').each do |c|
-          keyword = (c.text.match(/『(.+)』/) || [])[-1]
-          if keyword
-            SyllabusDatum.create(subject_id: subject.subject_id, tag: cat, category: nil, value: keyword)
-            # p "#{subject.subject_id}, #{cat}, , #{keyword}"
+          keywords = (c.text.scan(/『(.+?)』/) || [])
+          keywords.each do |keyword|
+            SyllabusDatum.create(subject_id: subject.subject_id, tag: cat, category: nil, value: keyword[0])
+            # p "#{subject.subject_id}, #{cat}, , #{keyword[0]}"
           end
         end
       end
