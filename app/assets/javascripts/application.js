@@ -18,3 +18,8 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+$(function () {
+  $(window).scroll(function() {
+    $("#sticker").sticky({topSpacing:0});
+  });
+});
