@@ -26,19 +26,25 @@ function cookie_to(type, data){
 
 // initialize
 function initialize(){
+  var checked_flag = 0;
   faculty_ids = convert_cookie_to("array", $.cookie('faculties'));
   // other
   $("[id=faculty_ckb]").each(function(index, element){
     if (faculty_ids.indexOf($(element).val()) >= 0){
       $(element).prop("checked",true);
+      checked_flag = 1;
     }
   });
   // all
   var element = $("#all_faculty_ckb");
   if (faculty_ids.indexOf($(element).val()) >= 0){
     $(element).prop("checked",true);
+    checked_flag = 1;
   }
   clicked_all(element);
+  if (checked_flag == 1){
+    control_checkbox_visible();
+  }
 }
 
 function confirm_check_status(element) {
