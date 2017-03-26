@@ -19,11 +19,9 @@ require 'robotex'
 # robotex = Robotex.new
 # p "robots: #{robotex.allowed?(url)}"hash = Hash.new(0)
 
-subjects = SummarizedSubject.limit(100)
-
 hash = Hash.new(0)
 
-subject = subjects[16]
+subject = SummarizedSubject.find_by(subject_id: 1284)
 
 url = subject.url
 agent = Mechanize.new
@@ -53,27 +51,27 @@ end
 
 p subject.subject_id
 
-table_hash["成績評価基準"].css('tbody > tr').each do |tr|
-  record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
-  record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
-  record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
-  p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+if record = table_hash["成績評価基準"]
+  record.css('tbody > tr').each do |tr|
+    record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
+    record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
+    record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
+    p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+  end
 end
 
 ["テキスト", "参考文献"].each do |cat|
   if table_hash[cat].present?
     table_hash[cat].css('tbody > tr').each do |c|
-      keyword = (c.text.match(/『(.+)』/) || [])[-1]
-      if keyword
-        p "#{subject.subject_id}, #{cat}, , #{keyword}"
+      keywords = (c.text.scan(/『(.+?)』/) || [])
+      keywords.each do |keyword|
+        p "#{subject.subject_id}, #{cat}, , #{keyword[0]}"
       end
     end
   end
 end
 
-
-
-
+table_hash["参考文献"].css('tbody > tr')[0].text
 
 subjects = SummarizedSubject.find(SummarizedSubject.pluck(:id).shuffle[0..100])
 
