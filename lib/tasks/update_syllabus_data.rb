@@ -28,12 +28,14 @@ class BatchUpdateSyllabusData
       end
     end
     
-    table_hash["成績評価基準"].css('tbody > tr').each do |tr|
-      record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
-      record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
-      record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
-      SyllabusDatum.create(subject_id: subject.subject_id, tag: "成績", category: record_tag, value: record_val)
-      # p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+    if record = table_hash["成績評価基準"]
+      record.css('tbody > tr').each do |tr|
+        record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
+        record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
+        record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
+        SyllabusDatum.create(subject_id: subject.subject_id, tag: "成績", category: record_tag, value: record_val)
+        # p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+      end
     end
     
     ["テキスト", "参考文献"].each do |cat|
