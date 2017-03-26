@@ -22,6 +22,14 @@ var is_pc = (function(){
 })();
 
 function initialize_datatalbes(){
+  var table_tag = '' +
+  '<table id="subjects" class="table table-striped table-bordered subjects display responsive no-wrap">' +
+    '<thead class="datatables-thead">' +
+    '</thead>' +
+    '<tbody>' +
+    '</tbody>' +
+  '</table>';
+  
   if (getDevice == "sp"){
     var thead = "<tr>"+
     "<th>科目名</th>" +
@@ -46,9 +54,9 @@ function initialize_datatalbes(){
     "<th></th>" +
     "</tr>";
   }
-  if ($(".datatables-thead").find(".thead-data").length == 0){
-    $(".datatables-thead").append(thead);
-  }
+  $('#subjects_wrapper').remove();
+  $(".table-div").html(table_tag);
+  $(".datatables-thead").html(thead);
 }
 
 function load_table() {  
