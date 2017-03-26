@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170317184632) do
+ActiveRecord::Schema.define(version: 20170326112106) do
 
   create_table "faculties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",          null: false
@@ -114,6 +114,17 @@ ActiveRecord::Schema.define(version: 20170317184632) do
     t.index ["weighted_score"], name: "index_summarized_subjects_on_weighted_score", using: :btree
   end
 
+  create_table "syllabus_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "subject_id"
+    t.string   "tag"
+    t.string   "category"
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subject_id", "tag"], name: "index_syllabus_data_on_subject_id_and_tag", using: :btree
+    t.index ["subject_id"], name: "index_syllabus_data_on_subject_id", using: :btree
+  end
+
   create_table "teachers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name",       null: false
     t.datetime "created_at", null: false
@@ -151,5 +162,6 @@ ActiveRecord::Schema.define(version: 20170317184632) do
   add_foreign_key "subjects", "faculties"
   add_foreign_key "summarized_subjects", "faculties"
   add_foreign_key "summarized_subjects", "subjects"
+  add_foreign_key "syllabus_data", "subjects"
   add_foreign_key "year_data", "subjects"
 end

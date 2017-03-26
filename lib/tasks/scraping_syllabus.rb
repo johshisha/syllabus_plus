@@ -16,58 +16,110 @@ require 'nokogiri'
 require 'mechanize'
 require 'robotex'
 
+# robotex = Robotex.new
+# p "robots: #{robotex.allowed?(url)}"hash = Hash.new(0)
+
+subjects = SummarizedSubject.limit(100)
+
 hash = Hash.new(0)
 
-# 神学部 神学入門－3 
-url = 'https://syllabus.doshisha.ac.jp/html/2016/03/103001003.html'
+subject = subjects[16]
 
-# 文学 現代哲学（１）
-url = 'https://syllabus.doshisha.ac.jp/html/2016/11/111079000.html'
-
-url = 'https://syllabus.doshisha.ac.jp/html/2015/37/137584004.html'
-
+url = subject.url
 agent = Mechanize.new
-robotex = Robotex.new
-p "robots: #{robotex.allowed?(url)}"
 page = agent.get(url)
-''
-
 data = page.css('body > div > table:nth-child(2) > tbody > tr:nth-child(4) > td')
 children=data.children
-''
-
 table_hash = {}
 text_hash = {}
 tag = 'init'
-
 children.each do |t|
   text = t.text.strip
   if t.node_name == 'table'
     table_hash[tag] = t
   elsif text.present?
     if ret = text.match(/^＜(.+)＞$/)
-      p "tag #{tag = ret[1]}"
+      p "tag #{tag = ret[1].split('/')[0]}"
     else
       text_hash[tag] = text
     end
   end
 end
-''
-table_hash.keys
-
-table_hash["成績評価基準"].css('tbody > tr > td:nth-child(1)').text
-
-table_hash["成績評価基準"].css('tbody > tr > td:nth-child(2)').text
-
 table_hash["成績評価基準"].css('tbody > tr').each do |tr|
-  tag = tr.css('td')[0].text.strip
-  p tag
-  hash[tag] += 1
+  record_tag = tr.css('td')[0].text.strip
+  p record_tag
+  hash[record_tag] += 1
 end
 
-hash
+p subject.subject_id
 
-text_hash
+table_hash["成績評価基準"].css('tbody > tr').each do |tr|
+  record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
+  record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
+  record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
+  p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+end
+
+["テキスト", "参考文献"].each do |cat|
+  if table_hash[cat].present?
+    table_hash[cat].css('tbody > tr').each do |c|
+      keyword = (c.text.match(/『(.+)』/) || [])[-1]
+      if keyword
+        p "#{subject.subject_id}, #{cat}, , #{keyword}"
+      end
+    end
+  end
+end
+
+
+
+
+
+subjects = SummarizedSubject.find(SummarizedSubject.pluck(:id).shuffle[0..100])
+
+subjects.each do |subject|
+  url = subject.url
+  agent = Mechanize.new
+  page = agent.get(url)
+  data = page.css('body > div > table:nth-child(2) > tbody > tr:nth-child(4) > td')
+  children=data.children
+  table_hash = {}
+  text_hash = {}
+  tag = 'init'
+  children.each do |t|
+    text = t.text.strip
+    if t.node_name == 'table'
+      table_hash[tag] = t
+    elsif text.present?
+      if ret = text.match(/^＜(.+)＞$/)
+        p "tag #{tag = ret[1].split('/')[0]}"
+      else
+        text_hash[tag] = text
+      end
+    end
+  end
+  table_hash["成績評価基準"].css('tbody > tr').each do |tr|
+    record_tag = tr.css('td')[0].text.strip
+    p record_tag
+    hash[record_tag] += 1
+  end
+  sleep(1)
+end
+
+new_hash = Hash.new(0)
+hash.sort_by {|k, v| -v }.each do |h|
+  if h[0].include?("平常点")
+    new_hash["平常点"] += h[1].to_i
+  else
+    new_hash[h[0]] += h[1].to_i
+  end
+end
+
+new_hash.sort_by {|k, v| -v }.each do |h|
+  p h
+end
+
+table_hash
 
 t=table_hash["参考文献"].text
 
