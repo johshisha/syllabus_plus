@@ -33,6 +33,11 @@ class BatchUpdateSyllabusData
         record_tag = tr.css('td')[0].text.gsub(/(\xc2\xa0)+/, "").strip
         record_tag = "平常点" if record_tag.include?("平常点") # 平常点系は平常点でまとめる
         record_val = tr.css('td')[1].text.gsub(/(\xc2\xa0)+/, "").strip.gsub("%","")
+        if record_tag.length >= 255 || record_val.length >= 255
+          p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
+        end
+        record_tag = record_tag.slice(0..255)
+        record_val = record_val.slice(0..255)
         SyllabusDatum.create(subject_id: subject.subject_id, tag: "成績", category: record_tag, value: record_val)
         # p "#{subject.subject_id}, 成績, #{record_tag}, #{record_val}"
       end
@@ -43,6 +48,10 @@ class BatchUpdateSyllabusData
         table_hash[cat].css('tbody > tr').each do |c|
           keywords = (c.text.scan(/『(.+?)』/) || [])
           keywords.each do |keyword|
+            if keyword.length >= 255
+              p "#{subject.subject_id}, #{cat}, , #{keyword[0]}"
+            end
+            keyword = keyword.slice(0..255)
             SyllabusDatum.create(subject_id: subject.subject_id, tag: cat, category: nil, value: keyword[0])
             # p "#{subject.subject_id}, #{cat}, , #{keyword[0]}"
           end
@@ -54,7 +63,8 @@ class BatchUpdateSyllabusData
   
   def self.execute
     p "#{DateTime.now}, Start BatchUpdateSyllabusData"
-    faculties = Faculty.all
+    # faculties = Faculty.all
+    faculties = Faculty.where('id >= 13')
     faculties.each do |faculty|
       p "faculty #{faculty.name}"
       subjects = faculty.summarized_subjects
