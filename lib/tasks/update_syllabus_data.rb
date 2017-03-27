@@ -63,8 +63,7 @@ class BatchUpdateSyllabusData
   
   def self.execute
     p "#{DateTime.now}, Start BatchUpdateSyllabusData"
-    # faculties = Faculty.all
-    faculties = Faculty.where('id >= 13')
+    faculties = Faculty.all
     faculties.each do |faculty|
       p "faculty #{faculty.name}"
       subjects = faculty.summarized_subjects
