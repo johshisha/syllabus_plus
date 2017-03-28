@@ -233,3 +233,33 @@ table.autumn-term {
     margin: 5px;
   }
 }
+// for amazon link
+.book-list {
+  list-style: none;
+}
+
+.list-icon {
+  margin: 5px;
+}
+
+.search-icon {
+  margin: 5px;
+}
+
+.notice-new-student {
+  background-color: #f5f5f5;
+  padding: 15px;
+  p {
+    margin: 0;
+  }
+}
+
+.notice-newe-student-text {
+  color: #ef5353;
+  .strong {
+    color: red;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 3px;
+  }
+}
