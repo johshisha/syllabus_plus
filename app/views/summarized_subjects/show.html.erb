@@ -30,13 +30,13 @@
 </div>
 
 <div class="textbook-area">
-  <h3>Amazonで中古があるか検索する</h3>
-  <hr>
   <% textbooks = @summarized_subject.syllabus_data.where("tag = 'テキスト'") %>
   <% ref_books = @summarized_subject.syllabus_data.where("tag = '参考文献'") %>
   <% if textbooks.present? || ref_books.present? %>
+    <h3>Amazonで中古があるか検索する</h3>
+    <hr>
     <div class="notice-new-student">
-      <p class='notice-newe-student-text'>購入の際はタイトル，版を確認した上で自己責任でご購入ください</p>
+      <p class='notice-newe-student-text'>購入の際は<span class='strong'>シラバスで</span>タイトル，版を確認した上で自己責任でご購入ください</p>
       <p>
         <strong>※「新入生の方へ」</strong>
       </p>
