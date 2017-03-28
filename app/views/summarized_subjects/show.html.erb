@@ -29,6 +29,54 @@
 <canvas id="myChart" width="300" height="200">お使いのブラウザはcanvasに対応していません。</canvas>
 </div>
 
+<div class="textbook-area">
+  <h3>Amazonで中古があるか検索する</h3>
+  <hr>
+  <% textbooks = @summarized_subject.syllabus_data.where("tag = 'テキスト'") %>
+  <% ref_books = @summarized_subject.syllabus_data.where("tag = '参考文献'") %>
+  <% if textbooks.present? || ref_books.present? %>
+    <div class="notice-new-student">
+      <p class='notice-newe-student-text'>購入の際はタイトル，版を確認した上で自己責任でご購入ください</p>
+      <p>
+        <strong>※「新入生の方へ」</strong>
+      </p>
+      <p>
+        Amazonで買うことでかなり安く買うことができますが，<br>
+        そもそも教科書が必要な講義なのかを先輩に確認した上で購入することをおすすめします．
+      </p>
+      <p>
+        中古は数が限られるので早めのご購入をおすすめします．
+      </p>
+    </div>
+  <% end %>
+  <% if textbooks.present? %>
+    <div class="textbooks">
+      <h4>教科書の候補</h4>
+      <ul class="book-list">
+        <% textbooks.each do |textbook| %>
+          <% keyword = textbook.value %>
+          <% amazon_path = "https://www.amazon.co.jp/s/ref=as_li_ss_tl?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias=stripbooks&field-keywords=#{keyword}&rh=n:465392,k:#{keyword}&linkCode=ll2&tag=johshisha-22" %>
+          <li><%= image_tag('textbook.png', { :border => '0', :alt => '教科書', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[amazonで中古を探す]", amazon_path, target: :_blank %></li>
+        <% end %>
+      </ul>
+    </div>
+    <br>
+  <% end %>
+  <% if ref_books.present? %>
+    <div class="ref_books">
+      <h4>参考文献の候補</h4>
+      <ul class="book-list">
+        <% ref_books.each do |ref_book| %>
+          <% keyword = ref_book.value %>
+          <% amazon_path = "https://www.amazon.co.jp/s/ref=as_li_ss_tl?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias=stripbooks&field-keywords=#{keyword}&rh=n:465392,k:#{keyword}&linkCode=ll2&tag=johshisha-22" %>
+          <li><%= image_tag('ref_books.png', { :border => '0', :alt => '参考文献', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[amazonで中古を探す]", amazon_path, target: :_blank %></li>
+        <% end %>
+      </ul>
+    </div>
+    <br>
+  <% end %>
+</div>
+
 <script>
   if ($(".stock-button").find(".btn").length == 0){
     $('.stock-button').append(
