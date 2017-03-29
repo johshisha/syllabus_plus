@@ -104,3 +104,6 @@ gem 'pry'
 
 # convert to en
 gem 'moji'
+
+# for slack notification
+gem 'slack-incoming-webhooks'

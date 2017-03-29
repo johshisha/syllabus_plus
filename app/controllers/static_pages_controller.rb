@@ -1,4 +1,5 @@
-require 'pry'
+require 'slack/incoming/webhooks'
+
 class StaticPagesController < ApplicationController
   def usage
   end
@@ -17,13 +18,21 @@ class StaticPagesController < ApplicationController
   end
   
   def post_contact
+    uuid = params[:uuid]
+    email = params[:email]
     content = params[:content]
     if content.present?
-      flash[:success] = "問い合わせありがとうございました．今後ともよろしくお願いします．"
+      slack = Slack::Incoming::Webhooks.new ENV['SLACK_URL']
+      attachments = [{
+        title: "問い合わせ UUID:#{uuid}, mail:#{email}",
+        text: "#{content}",
+        color: "#fbec00"
+      }]
+      slack.post "@johshisha From #{email}", attachments: attachments
+      redirect_to contact_url, :notice => "問い合わせありがとうございました．今後ともよろしくお願いします．"
     else
-      flash[:danger] = "内容が記入されていません．"
+      redirect_to contact_url, :alert => "内容が記入されていません．"
     end
-    render "contact"
-    # binding.pry
+    
   end
 end
