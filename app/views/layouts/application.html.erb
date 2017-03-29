@@ -63,7 +63,7 @@
           <ul class="nav navbar-nav">
             <li><%= link_to "使い方", usage_path  %></li>
             <li><%= link_to "保存した科目を見る", stock_subjects_path %></li>
-            <!-- <li><%= link_to "Link3", "/path3"  %></li> -->
+            <li><%= link_to "問い合わせ", contact_path  %></li>
           </ul>
         </div>
       </div>
@@ -83,16 +83,16 @@
                 <li class="nav-header">リンク</li>
                 <li>
                   <%= link_to "公式Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>
-                  <small class="description">問い合わせ，要望はこちらからお願いします．</small>
+                  <small class="description">新機能リリースなどはこちらで通知しています．</small>
                 </li>
                 <li>
                   <%= link_to "注意事項", notice_path, target: :_blank %>
                   <small class="description">ご利用の際には必ずお読みください．</small>
                 </li>
-                <!-- <li>
-                  <%= link_to "公式Twitter", "https://twitter.com/SyllabusPlus", target: :_blank %>
-                  <small class="description"><%= "あ"*100 %></small>
-                </li> -->
+                <li>
+                  <%= link_to "問い合わせ", contact_path, target: :_blank %>
+                  <small class="description">質問・要望などはこちらから．</small>
+                </li>
                 <!-- <li><%= link_to "Link2", "/path2"  %></li> -->
                 <!-- <li><%= link_to "Link3", "/path3"  %></li> -->
               </ul>
@@ -119,7 +119,8 @@
           <%= link_to "使い方", usage_path, target: :_blank %> | 
           <%= link_to "注意事項", notice_path, target: :_blank %> | 
           <%= link_to "利用規約", agreement_path, target: :_blank %> |
-          <%= link_to "よくある質問", q_and_a_path, target: :_blank %>
+          <%= link_to "よくある質問", q_and_a_path, target: :_blank %> |
+          <%= link_to "問い合わせ", contact_path, target: :_blank %>
         </p>
       </div>
         
