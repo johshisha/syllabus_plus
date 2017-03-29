@@ -1,0 +1,28 @@
+<h1>質問・要望等を問い合わせください</h1>
+<div class="message">
+  <p>
+    この機能が使いづらい等，遠慮なく教えていただけますとうれしいです！<br>
+    今後の機能改善に繋がりますのでよろしくお願いします．<br>
+    (ご要望にお答えできない場合もございますので，お了承ください．)
+  </p>
+</div>
+<div class="modal-dialog">
+  <%= form_tag contact_path, class: "contact-form" do %>
+    <%= hidden_field_tag(:uuid, @uuid) %>
+    <p>
+      E-mail (返事が必要な方はご記入ください)
+    </p>
+    <p>
+      <%= email_field_tag :email, '', :size => "40" %>
+    </p>
+    <p>
+      内容
+    </p>
+    <p>
+      <%= text_area_tag :content, '', :size => "40x7" %>
+    </p>
+    <p>
+      <%= submit_tag "送信する", class: "btn" %>
+    </p>
+  <% end %>
+</div>

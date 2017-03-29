@@ -234,6 +234,7 @@ GEM
     schash (0.1.2)
     sfl (2.3)
     shellany (0.0.1)
+    slack-incoming-webhooks (0.2.0)
     slop (3.6.0)
     specinfra (2.67.2)
       net-scp
@@ -321,6 +322,7 @@ DEPENDENCIES
   rails-controller-testing (= 0.1.1)
   robotex
   sass-rails (~> 5.0.6)
+  slack-incoming-webhooks
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets (= 3.6.3)
