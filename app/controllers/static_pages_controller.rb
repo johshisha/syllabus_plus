@@ -33,6 +33,18 @@ class StaticPagesController < ApplicationController
     else
       redirect_to contact_url, :alert => "内容が記入されていません．"
     end
-    
+  end
+  
+  def popularity
+    limit_num = 20
+    @faculties = Faculty.all
+    if faculty_id = params["faculty_id"]
+      ordered = StockedLog.joins(:summarized_subject).where("faculty_id = #{faculty_id}").group(:subject_id).order('count_subject_id desc').count('subject_id')
+    else
+      ordered = StockedLog.group(:subject_id).order('count_subject_id desc').count('subject_id')
+    end
+    keys = ordered.keys
+    @values = ordered.values
+    @subjects = SummarizedSubject.where(subject_id: keys).sort_by {|p| keys.index(p.subject_id) }
   end
 end
