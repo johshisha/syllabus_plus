@@ -1,0 +1,35 @@
+<h1>人気科目</h1>
+<h3>Stockされた回数の多い科目<%= (faculty_id = params['faculty_id']) ? " (#{@faculties.find(faculty_id).name})" : "" %></h3>
+
+<style type="text/css">
+td, th {
+padding: 10px 20px;
+}
+
+</style>
+
+<%= form_tag(popularity_path, method: "get") do %>
+  絞り込み検索：<%= select_tag "faculty_id", options_from_collection_for_select(@faculties, "id", "name") %>
+  <%= submit_tag("検索") %>
+<% end %>
+<p><%= button_to "リセット", popularity_path, method: "get" %><p>
+
+
+<table>
+  <thead>
+    <tr>
+      <th>科目</th><th>id</th><th>平均評点</th><th>学部</th><th>回数</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @subjects.each_with_index do |subject, i| %>
+      <tr>
+        <td><%= link_to subject.name, subject, target: :_blank %></td>
+        <td><%= subject.subject_id %></td>
+        <td><%= subject.mean_score %></td>
+        <td><%= (name = @faculties.find(subject.faculty_id).name).include?('（') ? name.match(/（(.+)）/)[1] : name %></td>
+        <td><%= @values[i] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

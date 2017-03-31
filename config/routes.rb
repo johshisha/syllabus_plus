@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'q_and_a' => 'static_pages#q_and_a'
   get 'contact' => 'static_pages#contact'
   post 'contact' => 'static_pages#post_contact'
+  get 'popularity' => 'static_pages#popularity'
   
   resources :faculties, only: [:index, :show] do
     collection do
