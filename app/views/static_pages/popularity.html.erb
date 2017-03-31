@@ -5,7 +5,6 @@
 td, th {
 padding: 10px 20px;
 }
-
 </style>
 
 <%= form_tag(popularity_path, method: "get") do %>
@@ -18,7 +17,11 @@ padding: 10px 20px;
 <table>
   <thead>
     <tr>
-      <th>科目</th><th>id</th><th>平均評点</th><th>学部</th><th>回数</th>
+      <th width='30%'>科目</th>
+      <th width='10%'>id</th>
+      <th width='10%'>平均評点</th>
+      <th width='20%'>学部</th>
+      <th width='10%'>回数</th>
     </tr>
   </thead>
   <tbody>
