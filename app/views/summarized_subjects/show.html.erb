@@ -33,11 +33,8 @@
   <% textbooks = @summarized_subject.syllabus_data.where("tag = 'テキスト'") %>
   <% ref_books = @summarized_subject.syllabus_data.where("tag = '参考文献'") %>
   <% if textbooks.present? || ref_books.present? %>
-    <h3>Amazonで中古があるか検索する</h3>
+    <h3>教科書をネットで購入する</h3>
     <hr>
-    <div class="notice-new-student">
-      <p>購入の際は<span class='strong'>シラバスで</span>タイトル，版を確認した上で自己責任でご購入ください</p>
-    </div>
   <% end %>
   <% if textbooks.present? %>
     <div class="textbooks">
@@ -46,7 +43,7 @@
         <% textbooks.each do |textbook| %>
           <% keyword = textbook.value %>
           <% amazon_path = "https://www.amazon.co.jp/s/ref=as_li_ss_tl?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias=stripbooks&field-keywords=#{keyword}&rh=n:465392,k:#{keyword}&linkCode=ll2&tag=johshisha-22" %>
-          <li><%= image_tag('textbook.png', { :border => '0', :alt => '教科書', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[amazonで中古を探す]", amazon_path, target: :_blank %></li>
+          <li><%= image_tag('textbook.png', { :border => '0', :alt => '教科書', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[中古本を探す]", amazon_path, target: :_blank %></li>
         <% end %>
       </ul>
     </div>
@@ -59,9 +56,15 @@
         <% ref_books.each do |ref_book| %>
           <% keyword = ref_book.value %>
           <% amazon_path = "https://www.amazon.co.jp/s/ref=as_li_ss_tl?__mk_ja_JP=%E3%82%AB%E3%82%BF%E3%82%AB%E3%83%8A&url=search-alias=stripbooks&field-keywords=#{keyword}&rh=n:465392,k:#{keyword}&linkCode=ll2&tag=johshisha-22" %>
-          <li><%= image_tag('ref_books.png', { :border => '0', :alt => '参考文献', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[amazonで中古を探す]", amazon_path, target: :_blank %></li>
+          <li><%= image_tag('ref_books.png', { :border => '0', :alt => '参考文献', :class => 'list-icon'}) %><%= keyword %>: <%= link_to image_tag('search.png', { :size => "24x24", :border => '0', :alt => '検索', :class => 'search-icon'})+"[中古本を探す]", amazon_path, target: :_blank %></li>
         <% end %>
       </ul>
+    </div>
+    <br>
+  <% end %>
+  <% if textbooks.present? || ref_books.present? %>
+    <div class="notice-new-student">
+      <p>購入の際は<span class='strong'>シラバスで</span>タイトル，版を確認した上で自己責任でご購入ください</p>
     </div>
     <br>
   <% end %>
