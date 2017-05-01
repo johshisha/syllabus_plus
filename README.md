@@ -2,7 +2,8 @@
 同志社大学の学生のための履修支援サービス  
 
 ## Web site
-http://syllabusplus.info
+~~http://syllabusplus.info~~  
+https://syllabusplus.herokuapp.com/
 
 
 ## Ruby version  
@@ -20,7 +21,23 @@ $ bundle exec rails runner lib/tasks/retrieval_data_from_original_site.rb 収集
 $ bundle exec rails runner lib/tasks/update_mean_scores_table.rb # 科目ごとの平均点をアップデートする
 $ bundle exec rails runner lib/tasks/update_summarized_subjects.rb シラバス参照年度(e.g., 2017) # 指定した年度のシラバスが存在する科目で表示用の集計済みテーブルを作り直す
 ```
-- バッチの問題点  
-Duetリプレイスにより，科目名の表記，科目コードの表記が変更された．  
-この影響により，科目が正しく結び付けれていないものが存在する．（諦めた）  
-（メモ：コードは変わらないつもりでいたので，仕方なく正規化した科目名で紐付けている．正規化は`lib/tasks/update_subject_name.ipynb`を参照）  
+
+## Setup Memo
+- AWSのEC2をたててからすること
+
+```
+export APPNAME="syllabus_plus"
+sudo adduser $APPNAME
+sudo gpasswd -a $APPNAME sudo
+
+## ssh-authorizedの設定
+cat ~/.ssh/syllabus_plus_rsa.pub | pbcopy # at local
+su syllabus_plus
+cd
+mkdir .ssh
+vim ~/.ssh/authorized_keys # copyしたやつをペーストする
+export MYSQL_PASS={適当なパスワード：使わない}
+# .envをローカルからコピー or 設定
+# setup-server.shをコピー
+sh setup-server.sh
+```
