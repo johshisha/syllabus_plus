@@ -41,19 +41,19 @@ class StockSubjectsController < ApplicationController
         uuid = cookies.signed["uuid"]
         begin
           if log = StockedLog.find_by(uuid: uuid, subject_id: subject_id)
-            log.update(uuid: uuid, subject_id: subject_id, week: week, periods: period_array, deleted: false)
+            log.update!(uuid: uuid, subject_id: subject_id, week: week, periods: period_array, deleted: false)
           else
-            StockedLog.create(uuid: uuid, subject_id: subject_id, week: week, periods: period_array)
+            StockedLog.create!(uuid: uuid, subject_id: subject_id, week: week, periods: period_array)
           end
         rescue
           # Herokuで保存失敗したときの通知
           slack = Slack::Incoming::Webhooks.new ENV['SLACK_URL']
           attachments = [{
-            title: "保存失敗 UUID:#{uuid}, mail:#{email}",
+            title: "保存失敗 UUID:#{uuid}",
             text: "uuid: #{uuid}, subject_id: #{subject_id}, week: #{week}, periods: #{period_array}",
-            color: "red"
+            color: "#F35A00"
           }]
-          slack.post "@johshisha From #{email}", attachments: attachments
+          slack.post "@johshisha", attachments: attachments
         end
         format.js { @status = {"status": "success", "id": subject_id} }
       else
