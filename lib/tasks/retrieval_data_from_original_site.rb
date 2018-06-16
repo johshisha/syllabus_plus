@@ -12,7 +12,7 @@ require "#{Rails.root}/app/models/faculty"
 
 class BatchUpdateSyllabus
   attr_accessor :post_data
-  
+
   def self.set_post_data
     #  神学部2016
     example = "form1%3AselectedIndex=0&form1%3AselectedPage=1&form1%3AtopPosition=0&form1%3AkaikoNendolist=2016&form1%3A_id78=&form1%3A_id82=1&form1%3A_id86=11001&form1%3A_id90=&form1%3A_id92=&form1%3A_id104=&form1%3A_id116=&form1%2Fhtml%2Ffi%2Ffi020%2FFI02001G.html=form1&form1%3A__link_clicked__=form1%3AdoKensaku"
@@ -32,7 +32,7 @@ class BatchUpdateSyllabus
     """
     post_data
   end
-  
+
   def self.update_parameter(faculty, year)
     @post_data ||= set_post_data
     p "update params"
@@ -44,7 +44,7 @@ class BatchUpdateSyllabus
       @post_data[key.to_s] = val
     end
   end
-    
+
   def self.retrieve_subjects_of(faculty)
     agent = Mechanize.new
     url = "https://duet.doshisha.ac.jp/kokai/html/fi/fi020/FI02001G.html"
@@ -70,7 +70,7 @@ class BatchUpdateSyllabus
     end
     trs
   end
-  
+
   def self.tr2array(tr)
     tds = tr.css('td')
     p "invalid data #{tds}" if tds.length != 14
@@ -81,7 +81,7 @@ class BatchUpdateSyllabus
     code = code.slice(1..-1)
     return code, term, subject_name, students_number, a, b, c, d, f, other, mean_score, teachers, subject_url
   end
-    
+
   def self.update_tables(trs, faculty_id, year)
     before_count = Subject.count
     trs.each do |tr|
@@ -98,7 +98,7 @@ class BatchUpdateSyllabus
     after_count = Subject.count
     after_count - before_count
   end
-  
+
   def self.execute(year)
     p "#{DateTime.now}, Start BatchUpdateSyllabus (retrieval year: #{year})"
     faculies = Faculty.all
